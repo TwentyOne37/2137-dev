@@ -3,6 +3,50 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 
+/* ── scroll reveal ─────────────────────────────────────────── */
+function FadeIn({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(8px)",
+        transition: `opacity 0.5s ease ${delay}ms, transform 0.5s ease ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 /* ── helpers ───────────────────────────────────────────────── */
 function Dot({ color = "green" }: { color?: "green" | "amber" | "red" }) {
   const c = {
@@ -267,7 +311,7 @@ const SERVICES = [
 
 function Services() {
   return (
-    <section id="services" className="border-t border-[#1a1a1a] py-10">
+    <section id="services" className="border-t border-[#1a1a1a] py-12">
       <div className="mx-auto max-w-4xl px-6">
         <div className="mb-4 text-[9px] uppercase tracking-[0.2em] text-[#444]">
           Services
@@ -308,8 +352,9 @@ function Services() {
 /* ── CASE STUDY ────────────────────────────────────────────── */
 function CaseStudy() {
   return (
-    <section id="work" className="border-t border-[#1a1a1a] py-10">
+    <section id="work" className="border-t border-[#1a1a1a] py-12">
       <div className="mx-auto max-w-4xl px-6">
+        <FadeIn>
         <div className="mb-4 text-[9px] uppercase tracking-[0.2em] text-[#444]">
           Work
         </div>
@@ -375,10 +420,13 @@ function CaseStudy() {
           )}
         </div>
 
+        </FadeIn>
+
         {/* divider */}
         <div className="my-8 border-t border-[#1a1a1a]" />
 
         {/* cryptomapp */}
+        <FadeIn>
         <div className="flex flex-wrap items-baseline gap-2">
           <a
             href="https://cryptom.app"
@@ -411,10 +459,13 @@ function CaseStudy() {
           )}
         </div>
 
+        </FadeIn>
+
         {/* divider */}
         <div className="my-8 border-t border-[#1a1a1a]" />
 
         {/* 2137.dev */}
+        <FadeIn>
         <div className="flex flex-wrap items-baseline gap-2">
           <a
             href="https://2137.dev"
@@ -444,6 +495,7 @@ function CaseStudy() {
             )
           )}
         </div>
+        </FadeIn>
       </div>
     </section>
   );
@@ -496,17 +548,20 @@ const PACKAGES = [
 
 function PackagesSection() {
   return (
-    <section id="packages" className="border-t border-[#1a1a1a] py-10">
+    <section id="packages" className="border-t border-[#1a1a1a] py-12">
       <div className="mx-auto max-w-4xl px-6">
-        <div className="mb-1 text-[9px] uppercase tracking-[0.2em] text-[#444]">
-          Packages
-        </div>
-        <h2 className="text-lg font-semibold text-white sm:text-xl">
-          Fixed scope. Fixed price.
-        </h2>
+        <FadeIn>
+          <div className="mb-1 text-[9px] uppercase tracking-[0.2em] text-[#444]">
+            Packages
+          </div>
+          <h2 className="text-lg font-semibold text-white sm:text-xl">
+            Fixed scope. Fixed price.
+          </h2>
+        </FadeIn>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
-          {PACKAGES.map((pkg) => (
+          {PACKAGES.map((pkg, i) => (
+            <FadeIn key={pkg.code} delay={i * 100}>
             <div
               key={pkg.code}
               className={`flex flex-col border p-4 ${
@@ -554,6 +609,7 @@ function PackagesSection() {
                 Select →
               </a>
             </div>
+            </FadeIn>
           ))}
         </div>
 
@@ -600,8 +656,9 @@ function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="border-t border-[#1a1a1a] py-10">
+    <section id="faq" className="border-t border-[#1a1a1a] py-12">
       <div className="mx-auto max-w-4xl px-6">
+        <FadeIn>
         <div className="mb-4 text-[9px] uppercase tracking-[0.2em] text-[#444]">
           FAQ
         </div>
@@ -629,6 +686,7 @@ function FAQ() {
             </div>
           ))}
         </div>
+        </FadeIn>
       </div>
     </section>
   );
@@ -642,8 +700,9 @@ function Contact() {
     "w-full border border-[#1a1a1a] bg-[#0e0e0e] px-3 py-2 text-[11px] text-white placeholder-[#333] focus:border-[#ffb800] transition";
 
   return (
-    <section id="contact" className="border-t border-[#1a1a1a] py-10">
+    <section id="contact" className="border-t border-[#1a1a1a] py-12">
       <div className="mx-auto max-w-2xl px-6">
+        <FadeIn>
         <div className="mb-1 text-[9px] uppercase tracking-[0.2em] text-[#444]">
           Contact
         </div>
@@ -758,6 +817,7 @@ function Contact() {
             </p>
           </form>
         )}
+        </FadeIn>
       </div>
     </section>
   );
