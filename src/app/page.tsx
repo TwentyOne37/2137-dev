@@ -695,6 +695,8 @@ function FAQ() {
 /* ── CONTACT ───────────────────────────────────────────────── */
 function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const inputClass =
     "w-full border border-[#1a1a1a] bg-[#0e0e0e] px-3 py-2 text-[11px] text-white placeholder-[#333] focus:border-[#ffb800] transition";
@@ -724,9 +726,45 @@ function Contact() {
           </div>
         ) : (
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              setSubmitted(true);
+              setError(null);
+              setLoading(true);
+
+              const form = e.currentTarget;
+              const formData = new FormData(form);
+
+              const payload = {
+                name: formData.get("name"),
+                email: formData.get("email"),
+                projectType: formData.get("projectType"),
+                budget: formData.get("budget"),
+                details: formData.get("details"),
+                telegram: formData.get("telegram") || undefined,
+                twitter: formData.get("twitter") || undefined,
+              };
+
+              try {
+                const res = await fetch("/api/inquiry", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(payload),
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                  setError(data.error ?? "Failed to send");
+                  setLoading(false);
+                  return;
+                }
+
+                setSubmitted(true);
+              } catch {
+                setError("Failed to send. Please try emailing directly.");
+              } finally {
+                setLoading(false);
+              }
             }}
             className="mt-6 space-y-3"
           >
@@ -736,6 +774,7 @@ function Contact() {
                   Name *
                 </label>
                 <input
+                  name="name"
                   type="text"
                   required
                   placeholder="Your name"
@@ -747,9 +786,35 @@ function Contact() {
                   Email *
                 </label>
                 <input
+                  name="email"
                   type="email"
                   required
                   placeholder="you@company.com"
+                  className={inputClass}
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-[9px] uppercase tracking-[0.2em] text-[#444]">
+                  Telegram
+                </label>
+                <input
+                  name="telegram"
+                  type="text"
+                  placeholder="@username"
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-[9px] uppercase tracking-[0.2em] text-[#444]">
+                  Twitter / X
+                </label>
+                <input
+                  name="twitter"
+                  type="text"
+                  placeholder="@username"
                   className={inputClass}
                 />
               </div>
@@ -759,7 +824,7 @@ function Contact() {
               <label className="mb-1 block text-[9px] uppercase tracking-[0.2em] text-[#444]">
                 Project type *
               </label>
-              <select required className={inputClass} defaultValue="">
+              <select name="projectType" required className={inputClass} defaultValue="">
                 <option value="" disabled>
                   Select
                 </option>
@@ -776,7 +841,7 @@ function Contact() {
               <label className="mb-1 block text-[9px] uppercase tracking-[0.2em] text-[#444]">
                 Budget *
               </label>
-              <select required className={inputClass} defaultValue="">
+              <select name="budget" required className={inputClass} defaultValue="">
                 <option value="" disabled>
                   Select
                 </option>
@@ -792,6 +857,7 @@ function Contact() {
                 Details *
               </label>
               <textarea
+                name="details"
                 required
                 rows={3}
                 placeholder="What are you building? What's broken?"
@@ -799,11 +865,16 @@ function Contact() {
               />
             </div>
 
+            {error && (
+              <p className="text-[10px] text-red-400">{error}</p>
+            )}
+
             <button
               type="submit"
-              className="w-full bg-[#ffb800] py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black transition hover:bg-[#e0a200]"
+              disabled={loading}
+              className="w-full bg-[#ffb800] py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black transition hover:bg-[#e0a200] disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Send inquiry →
+              {loading ? "Sending…" : "Send inquiry →"}
             </button>
 
             <p className="text-center text-[9px] text-[#444]">
@@ -830,11 +901,25 @@ function Footer() {
       <div className="mx-auto flex max-w-4xl flex-col items-center justify-between gap-2 px-6 text-[9px] uppercase tracking-[0.2em] text-[#333] sm:flex-row">
         <span>© {new Date().getFullYear()} 2137.dev</span>
         <div className="flex gap-5">
-          {["GitHub", "Twitter", "LinkedIn"].map((l) => (
-            <a key={l} href="#" className="transition hover:text-white">
-              {l}
-            </a>
-          ))}
+          <a
+            href="https://github.com/TwentyOne37"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-white"
+          >
+            GitHub
+          </a>
+          <a href="#" className="transition hover:text-white">
+            Twitter
+          </a>
+          <a
+            href="https://www.linkedin.com/in/twentyone37/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-white"
+          >
+            LinkedIn
+          </a>
         </div>
       </div>
     </footer>
