@@ -265,10 +265,10 @@ function Hero() {
             </div>
             <div className="pt-0.5 text-[11px] leading-relaxed">
               <div className="font-semibold text-white">
-                Krzysztof Ziolkowski <span className="ml-0.5">🇵🇱</span>
+                Krzysztof Ziolkowski
               </div>
               <div className="text-[#444]">Backend &amp; Blockchain Eng.</div>
-              <div className="text-[#444]">CDMX, México</div>
+              <div className="text-[#444]">Amsterdam, Netherlands</div>
             </div>
           </div>
         </div>
