@@ -48,13 +48,25 @@ function FadeIn({
 }
 
 /* ── helpers ───────────────────────────────────────────────── */
-function Dot({ color = "green" }: { color?: "green" | "amber" | "red" }) {
+function Dot({
+  color = "green",
+  pulse = false,
+}: {
+  color?: "green" | "amber" | "red";
+  pulse?: boolean;
+}) {
   const c = {
     green: "bg-emerald-400",
     amber: "bg-amber-400",
     red: "bg-red-400",
   }[color];
-  return <span className={`inline-block h-1.5 w-1.5 rounded-full ${c}`} />;
+  return (
+    <span
+      className={`inline-block h-1.5 w-1.5 rounded-full ${c} ${
+        pulse ? "animate-heartbeat" : ""
+      }`}
+    />
+  );
 }
 
 /* ── SPLIT-FLAP TEXT ───────────────────────────────────────── */
@@ -212,7 +224,7 @@ function Hero() {
       <div className="mx-auto w-full max-w-4xl px-6">
         {/* status line */}
         <div className="mb-8 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-[#444]">
-          <Dot color="green" />
+          <Dot color="green" pulse />
           <span>Available for new projects</span>
           <span className="ml-auto">
             {new Date()
@@ -265,7 +277,7 @@ function Hero() {
             </div>
             <div className="pt-0.5 text-[11px] leading-relaxed">
               <div className="font-semibold text-white">
-                Krzysztof Ziolkowski
+                Krzysztof Ziolkowski <span className="ml-0.5">🇵🇱</span>
               </div>
               <div className="text-[#444]">Backend &amp; Blockchain Eng.</div>
               <div className="text-[#444]">Amsterdam, Netherlands</div>
@@ -909,7 +921,12 @@ function Footer() {
           >
             GitHub
           </a>
-          <a href="#" className="transition hover:text-white">
+          <a
+            href="https://x.com/TwentyOne_37"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-white"
+          >
             Twitter
           </a>
           <a
