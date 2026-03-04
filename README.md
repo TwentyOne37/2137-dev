@@ -35,12 +35,19 @@ A Next.js 15 landing page.
 
 The contact form sends inquiries to `krzysztof@2137.dev` via [Resend](https://resend.com).
 
-1. Create a Resend account and get an API key
-2. Add to `.env.local`:
-   ```
-   RESEND_API_KEY=re_xxxxx
-   ```
-3. For production (Vercel): add `RESEND_API_KEY` in Project → Settings → Environment Variables
+**Without domain verification:** Resend only allows sending to your own email (e.g. twentyone_37@proton.me) for testing.
+
+**To send to krzysztof@2137.dev in production:**
+
+1. Go to [resend.com/domains](https://resend.com/domains) and add `2137.dev`
+2. Add the DNS records Resend shows (SPF, DKIM) at your domain registrar
+3. Wait for verification (usually a few minutes)
+4. In Vercel → Project → Settings → Environment Variables, add:
+   - `RESEND_API_KEY` = your Resend API key
+   - `RESEND_FROM` = `2137.dev <hello@2137.dev>` (or `inquiries@2137.dev` — any address @2137.dev)
+5. Redeploy
+
+**Local dev:** Add `RESEND_API_KEY` and optionally `RESEND_FROM` to `.env.local`
 
 ---
 

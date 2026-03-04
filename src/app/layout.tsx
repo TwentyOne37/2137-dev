@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "2137.dev — Backend & Solana Engineering",
+  title: "2137.dev — Solana / Backend / AI Agency | Rescue Contracts Open",
   description:
-    "Senior backend and blockchain engineer. 7 years building production systems. Fixed-scope consulting for startups and crypto projects.",
+    "Solana, Backend & AI engineering. Rescue contracts open. 7 years building production systems. Fixed-scope consulting.",
   openGraph: {
-    title: "2137.dev — Backend & Solana Engineering",
+    title: "2137.dev — Solana / Backend / AI Agency | Rescue Contracts Open",
     description:
-      "Senior backend and blockchain engineer. Fixed-scope consulting.",
+      "Solana, Backend & AI engineering. Rescue contracts open. Fixed-scope consulting.",
     type: "website",
   },
 };
