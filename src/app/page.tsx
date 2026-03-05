@@ -890,12 +890,14 @@ function Contact() {
             </button>
 
             <p className="text-center text-[9px] text-[#444]">
-              or email{" "}
+              or{" "}
               <a
-                href="mailto:krzysztof@2137.dev"
-                className="text-[#ffb800]"
+                href="https://calendly.com/twentyone37/call"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#ffb800] hover:underline"
               >
-                krzysztof@2137.dev
+                book a call
               </a>
             </p>
           </form>
