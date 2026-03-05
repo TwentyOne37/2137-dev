@@ -225,7 +225,7 @@ function Hero() {
         {/* status line */}
         <div className="mb-8 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-[#444]">
           <Dot color="green" pulse />
-          <span>Available for new projects</span>
+          <span>Available for new projects starting March 2026</span>
           <span className="ml-auto">
             {new Date()
               .toLocaleDateString("en-US", {
