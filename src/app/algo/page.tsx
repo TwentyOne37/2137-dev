@@ -158,7 +158,7 @@ const BADGES = [
 /* ── NAV ──────────────────────────────────────────────────── */
 function Nav() {
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-[#1a1a1a] bg-[#0c0c0c]/90 backdrop-blur-md">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-[#1e2d3d] bg-[#0d1117]/90 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
         <span className="text-[13px] font-bold tracking-wide text-white">
           algo-trader
@@ -172,7 +172,7 @@ function Nav() {
             <a
               key={s}
               href={`#${s}`}
-              className="text-[11px] uppercase tracking-[0.15em] text-[#444] transition hover:text-white"
+              className="text-[11px] uppercase tracking-[0.15em] text-[#4a5e78] transition hover:text-white"
             >
               {s.replace("-", " ")}
             </a>
@@ -199,10 +199,10 @@ function Hero() {
       <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6">
         {/* status */}
         <FadeIn delay={100}>
-          <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#1a1a1a] bg-white/[0.02] px-3 py-1 text-[9px] uppercase tracking-[0.15em] text-[#444] sm:mt-6 sm:gap-2 sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.2em]">
+          <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#1e2d3d] bg-white/[0.02] px-3 py-1 text-[9px] uppercase tracking-[0.15em] text-[#4a5e78] sm:mt-6 sm:gap-2 sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.2em]">
             <Dot color="amber" />
             <span>Founding members only</span>
-            <span className="text-[#333]">·</span>
+            <span className="text-[#364a5e]">·</span>
             <span>Colosseum Frontier 2026</span>
           </div>
         </FadeIn>
@@ -218,7 +218,7 @@ function Hero() {
 
         {/* subtitle */}
         <FadeIn delay={300}>
-          <p className={`mx-auto mt-4 max-w-2xl text-[13px] leading-relaxed text-[#888] sm:mt-5 sm:text-sm ${sans}`}>
+          <p className={`mx-auto mt-4 max-w-2xl text-[13px] leading-relaxed text-[#8b9eb5] sm:mt-5 sm:text-sm ${sans}`}>
             The first TradingView-like experience for Solana memecoins.
             Fastest live charts, 10 indicators computed in Rust, strategy builder, paper
             trading, and live execution.
@@ -236,7 +236,7 @@ function Hero() {
             </a>
             <a
               href="#features"
-              className="rounded border border-[#1a1a1a] px-5 py-2.5 text-[11px] uppercase tracking-[0.15em] text-[#555] transition hover:border-[#555] hover:text-white sm:px-7 sm:py-3 sm:text-[12px]"
+              className="rounded border border-[#1e2d3d] px-5 py-2.5 text-[11px] uppercase tracking-[0.15em] text-[#5a7490] transition hover:border-[#3a5068] hover:text-white sm:px-7 sm:py-3 sm:text-[12px]"
             >
               Learn more
             </a>
@@ -245,7 +245,7 @@ function Hero() {
 
         {/* stats strip */}
         <FadeIn delay={500}>
-          <div className="mx-auto mt-10 grid max-w-2xl grid-cols-4 border border-[#1a1a1a] bg-[#0e0e0e] sm:mt-14">
+          <div className="mx-auto mt-10 grid max-w-2xl grid-cols-4 border border-[#1e2d3d] bg-[#141c2b] sm:mt-14">
             {[
               { label: "Indicators", value: "10" },
               { label: "Timeframes", value: "6" },
@@ -254,9 +254,9 @@ function Hero() {
             ].map((s, i) => (
               <div
                 key={s.label}
-                className={`px-2 py-2 text-center sm:px-4 sm:py-2.5 sm:text-left ${i !== 0 ? "border-l border-[#1a1a1a]" : ""}`}
+                className={`px-2 py-2 text-center sm:px-4 sm:py-2.5 sm:text-left ${i !== 0 ? "border-l border-[#1e2d3d]" : ""}`}
               >
-                <div className="text-[8px] uppercase tracking-[0.15em] text-[#444] sm:text-[9px] sm:tracking-[0.2em]">
+                <div className="text-[8px] uppercase tracking-[0.15em] text-[#4a5e78] sm:text-[9px] sm:tracking-[0.2em]">
                   {s.label}
                 </div>
                 <div className="mt-0.5 text-[12px] font-semibold text-white sm:text-[13px]">
@@ -277,7 +277,7 @@ function DemoVideo() {
     <section className="py-8 sm:py-12">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
-          <div className="overflow-hidden rounded-lg border border-[#1a1a1a]">
+          <div className="overflow-hidden rounded-lg border border-[#1e2d3d]">
             <video
               autoPlay
               loop
@@ -298,17 +298,17 @@ function DemoVideo() {
 /* ── FEATURES ─────────────────────────────────────────────── */
 function Features() {
   return (
-    <section id="features" className="border-t border-[#1a1a1a] py-12 sm:py-20">
+    <section id="features" className="border-t border-[#1e2d3d] py-12 sm:py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
           <div className="text-center">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-[#444]">
+            <div className="text-[10px] uppercase tracking-[0.25em] text-[#4a5e78]">
               Features
             </div>
             <h2 className="mt-2 text-[clamp(1.5rem,3vw,2.25rem)] font-bold text-white">
               Everything you need to trade.
             </h2>
-            <p className={`mx-auto mt-3 max-w-lg text-[14px] text-[#666] ${sans}`}>
+            <p className={`mx-auto mt-3 max-w-lg text-[14px] text-[#6b8299] ${sans}`}>
               Built from the ground up for PumpSwap tokens on Solana. Real-time
               data, powerful indicators, and automated execution.
             </p>
@@ -318,11 +318,11 @@ function Features() {
         <div className="mt-8 grid gap-3 sm:mt-12 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
             <FadeIn key={f.title} delay={i * 80}>
-              <div className={`rounded-lg border border-[#1a1a1a] border-l-2 ${f.border} bg-[#0e0e0e] p-4 transition hover:border-[#333] hover:border-l-2 hover:bg-[#111] sm:p-6`}>
+              <div className={`rounded-lg border border-[#1e2d3d] border-l-2 ${f.border} bg-[#141c2b] p-4 transition hover:border-[#2a3f55] hover:border-l-2 hover:bg-[#182030] sm:p-6`}>
                 <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#ffb800]">
                   {f.title}
                 </div>
-                <p className={`mt-3 text-[13px] leading-relaxed text-[#666] ${sans}`}>
+                <p className={`mt-3 text-[13px] leading-relaxed text-[#6b8299] ${sans}`}>
                   {f.desc}
                 </p>
               </div>
@@ -337,11 +337,11 @@ function Features() {
 /* ── HOW IT WORKS ─────────────────────────────────────────── */
 function HowItWorks() {
   return (
-    <section id="how-it-works" className="border-t border-[#1a1a1a] py-12 sm:py-20">
+    <section id="how-it-works" className="border-t border-[#1e2d3d] py-12 sm:py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
           <div className="text-center">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-[#444]">
+            <div className="text-[10px] uppercase tracking-[0.25em] text-[#4a5e78]">
               How it works
             </div>
             <h2 className="mt-2 text-[clamp(1.5rem,3vw,2.25rem)] font-bold text-white">
@@ -353,14 +353,14 @@ function HowItWorks() {
         <div className="mx-auto mt-8 grid max-w-3xl gap-3 sm:mt-10 sm:grid-cols-3 sm:gap-4">
           {STEPS.map((step, i) => (
             <FadeIn key={step.num} delay={i * 120}>
-              <div className="rounded-lg border border-[#1a1a1a] bg-[#0e0e0e] p-4 text-center sm:p-6">
+              <div className="rounded-lg border border-[#1e2d3d] bg-[#141c2b] p-4 text-center sm:p-6">
                 <div className="text-[24px] font-bold text-[#ffb800]/30 sm:text-[28px]">
                   {step.num}
                 </div>
                 <div className="mt-2 text-[15px] font-semibold text-white">
                   {step.title}
                 </div>
-                <p className={`mt-2 text-[12px] leading-relaxed text-[#666] ${sans}`}>
+                <p className={`mt-2 text-[12px] leading-relaxed text-[#6b8299] ${sans}`}>
                   {step.desc}
                 </p>
               </div>
@@ -382,7 +382,7 @@ function SocialProof() {
             {BADGES.map((badge) => (
               <span
                 key={badge}
-                className="rounded-full border border-[#1a1a1a] bg-[#0e0e0e] px-3 py-1 text-[9px] uppercase tracking-[0.1em] text-[#555] sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.15em]"
+                className="rounded-full border border-[#1e2d3d] bg-[#141c2b] px-3 py-1 text-[9px] uppercase tracking-[0.1em] text-[#5a7490] sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.15em]"
               >
                 {badge}
               </span>
@@ -397,17 +397,17 @@ function SocialProof() {
 /* ── PRICING ──────────────────────────────────────────────── */
 function Pricing() {
   return (
-    <section id="pricing" className="border-t border-[#1a1a1a] py-12 sm:py-20">
+    <section id="pricing" className="border-t border-[#1e2d3d] py-12 sm:py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
           <div className="text-center">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-[#444]">
+            <div className="text-[10px] uppercase tracking-[0.25em] text-[#4a5e78]">
               Pricing
             </div>
             <h2 className="mt-2 text-[clamp(1.5rem,3vw,2.25rem)] font-bold text-white">
               Founding member rate.
             </h2>
-            <p className={`mx-auto mt-3 max-w-md text-[14px] text-[#666] ${sans}`}>
+            <p className={`mx-auto mt-3 max-w-md text-[14px] text-[#6b8299] ${sans}`}>
               Lock in the lowest price forever. Limited to the first 20 members.
             </p>
           </div>
@@ -419,14 +419,14 @@ function Pricing() {
               <span className="text-[11px] font-bold tracking-[0.2em] text-[#ffb800]">
                 FOUNDING MEMBER
               </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#444]">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#4a5e78]">
                 First 20 spots
               </span>
             </div>
 
             <div className="mt-4 flex items-baseline gap-1">
               <span className="text-[42px] font-bold leading-none text-white">$50</span>
-              <span className={`text-[16px] text-[#555] ${sans}`}>/mo</span>
+              <span className={`text-[16px] text-[#5a7490] ${sans}`}>/mo</span>
             </div>
 
             {/* spots remaining */}
@@ -439,7 +439,7 @@ function Pricing() {
               {PRICING_FEATURES.map((item) => (
                 <li
                   key={item}
-                  className="flex items-center gap-2.5 text-[13px] text-[#666]"
+                  className="flex items-center gap-2.5 text-[13px] text-[#6b8299]"
                 >
                   <span className="text-emerald-400">&#10003;</span>
                   {item}
@@ -456,7 +456,7 @@ function Pricing() {
               Pay with SOL / USDC
             </a>
 
-            <p className={`mt-4 text-center text-[11px] text-[#444] ${sans}`}>
+            <p className={`mt-4 text-center text-[11px] text-[#4a5e78] ${sans}`}>
               After payment, DM{" "}
               <a
                 href="https://x.com/TwentyOne_37"
@@ -478,23 +478,23 @@ function Pricing() {
 /* ── FOOTER ───────────────────────────────────────────────── */
 function Footer() {
   return (
-    <footer className="border-t border-[#1a1a1a] py-6 sm:py-8">
+    <footer className="border-t border-[#1e2d3d] py-6 sm:py-8">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <p className={`mb-6 text-center text-sm text-[#555] ${sans}`}>
+        <p className={`mb-6 text-center text-sm text-[#5a7490] ${sans}`}>
           Stop trading PumpSwap blind. Get institutional-grade tools.
         </p>
 
         <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] text-[#333]">Built by</span>
+            <span className="text-[11px] text-[#364a5e]">Built by</span>
             <a
               href="https://2137.dev"
-              className="text-[11px] font-semibold text-[#555] transition hover:text-white"
+              className="text-[11px] font-semibold text-[#5a7490] transition hover:text-white"
             >
               2137.dev
             </a>
           </div>
-          <div className="flex items-center gap-6 text-[11px] text-[#333]">
+          <div className="flex items-center gap-6 text-[11px] text-[#364a5e]">
             <a
               href="https://x.com/TwentyOne_37"
               target="_blank"
@@ -511,7 +511,7 @@ function Footer() {
             >
               GitHub
             </a>
-            <span className="text-[#222]">Colosseum Frontier 2026</span>
+            <span className="text-[#253545]">Colosseum Frontier 2026</span>
           </div>
         </div>
       </div>
@@ -571,7 +571,7 @@ function DotGrid() {
 /* ── PAGE ─────────────────────────────────────────────────── */
 export default function AlgoLandingPage() {
   return (
-    <main className="relative min-h-screen bg-[#0c0c0c]">
+    <main className="relative min-h-screen bg-[#0d1117]">
       <DotGrid />
       <div className="relative z-10">
       <Nav />
