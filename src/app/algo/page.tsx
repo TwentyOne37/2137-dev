@@ -95,13 +95,13 @@ const FEATURES = [
     border: "border-l-[#ffb800]",
   },
   {
-    title: "7 Technical Indicators",
-    desc: "EMA Cross, RSI, DMI/ADX, Supertrend, CCI, TRIX, Ichimoku Cloud. All computed in Rust for speed.",
+    title: "10 Technical Indicators",
+    desc: "RSI, EMA Cross, MACD, Bollinger Bands, Supertrend, DMI/ADX, CCI, TRIX, VWAP, Ichimoku Cloud. All computed in Rust for speed.",
     border: "border-l-[#ffb800]",
   },
   {
     title: "Strategy Builder",
-    desc: "Custom buy/sell conditions across all indicators. 2 proven presets included. Rolling window confirmation.",
+    desc: "Custom buy/sell conditions across all indicators. 3 proven presets included. Rolling window confirmation.",
     border: "border-l-[#ffb800]",
   },
   {
@@ -110,7 +110,7 @@ const FEATURES = [
     border: "border-l-emerald-400",
   },
   {
-    title: "Live Execution",
+    title: "Live Execution (sub-second)",
     desc: "Real PumpSwap trades via Helius Sender. Safety limits, dry-run mode, and position management.",
     border: "border-l-emerald-400",
   },
@@ -141,14 +141,13 @@ const STEPS = [
 
 const PRICING_FEATURES = [
   "Unlimited positions",
-  "All 7 technical indicators",
+  "All 10 technical indicators",
   "Strategy builder with presets",
   "Paper trading simulator",
   "Live execution on PumpSwap",
   "Private Telegram group with the founder",
 ];
 
-const BUILT_WITH = ["Helius", "Solana", "TradingView", "Rust", "Redis", "ClickHouse"];
 
 const BADGES = [
   "Competing in Colosseum Frontier 2026",
@@ -220,8 +219,8 @@ function Hero() {
         {/* subtitle */}
         <FadeIn delay={300}>
           <p className={`mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-[#888] ${sans}`}>
-            The first TradingView-like experience for Solana memecoins. Live
-            charts, 7 indicators computed in Rust, strategy builder, paper
+            The first TradingView-like experience for Solana memecoins.
+            Fastest live charts, 10 indicators computed in Rust, strategy builder, paper
             trading, and live execution.
           </p>
         </FadeIn>
@@ -248,10 +247,10 @@ function Hero() {
         <FadeIn delay={500}>
           <div className="mx-auto mt-14 grid max-w-2xl grid-cols-2 sm:grid-cols-4 border border-[#1a1a1a] bg-[#0e0e0e]">
             {[
-              { label: "Indicators", value: "7" },
-              { label: "Timeframes", value: "4" },
+              { label: "Indicators", value: "10" },
+              { label: "Timeframes", value: "6" },
               { label: "Latency", value: "<1s" },
-              { label: "Presets", value: "2" },
+              { label: "Presets", value: "3" },
             ].map((s, i) => (
               <div
                 key={s.label}
@@ -301,30 +300,6 @@ function DemoVideo() {
   );
 }
 
-/* ── BUILT WITH STRIP ─────────────────────────────────────── */
-function BuiltWith() {
-  return (
-    <section className="py-12">
-      <div className="mx-auto max-w-5xl px-6">
-        <FadeIn>
-          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
-            <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#333]">
-              Built with
-            </span>
-            {BUILT_WITH.map((name, i) => (
-              <span key={name} className="flex items-center gap-2">
-                {i > 0 && <span className="text-[#222]">·</span>}
-                <span className="text-[11px] uppercase tracking-[0.15em] text-[#444]">
-                  {name}
-                </span>
-              </span>
-            ))}
-          </div>
-        </FadeIn>
-      </div>
-    </section>
-  );
-}
 
 /* ── FEATURES ─────────────────────────────────────────────── */
 function Features() {
@@ -557,7 +532,6 @@ export default function AlgoLandingPage() {
       <Nav />
       <Hero />
       <DemoVideo />
-      <BuiltWith />
       <Features />
       <HowItWorks />
       <SocialProof />
