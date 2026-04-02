@@ -250,31 +250,24 @@ function Hero() {
   );
 }
 
-/* ── APP PREVIEW PLACEHOLDER ──────────────────────────────── */
-function AppPreview() {
+/* ── HERO IMAGE ───────────────────────────────────────────── */
+function HeroImage() {
   return (
-    <section className="border-t border-white/5 py-20">
+    <section className="py-12">
       <div className="mx-auto max-w-5xl px-6">
         <FadeIn>
-          <div className="relative overflow-hidden rounded-xl border border-white/5 bg-white/[0.02]">
-            {/* mock window chrome */}
-            <div className="flex items-center gap-2 border-b border-white/5 px-4 py-3">
-              <span className="h-2.5 w-2.5 rounded-full bg-red-400/60" />
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-400/60" />
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/60" />
-              <span className="ml-3 text-[10px] text-white/20">algo.2137.dev</span>
-            </div>
-
-            <div className="flex aspect-[16/9] items-center justify-center p-12">
-              <div className="text-center">
-                <div className="text-[11px] uppercase tracking-[0.25em] text-white/20">
-                  App preview coming soon
-                </div>
-                <p className="mt-2 text-[13px] text-white/10">
-                  Portfolio management · Live charts · Strategy builder
-                </p>
-              </div>
-            </div>
+          <div className="relative overflow-hidden rounded-2xl">
+            <Image
+              src="/algo-hero.png"
+              alt="Automated trading with candlestick charts"
+              width={1200}
+              height={675}
+              className="w-full object-cover"
+              priority
+            />
+            {/* fade edges into background */}
+            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent opacity-60" />
           </div>
         </FadeIn>
       </div>
@@ -482,7 +475,7 @@ export default function AlgoLandingPage() {
     <main className="min-h-screen bg-[#0a0a0f]">
       <Nav />
       <Hero />
-      <AppPreview />
+      <HeroImage />
       <Features />
       <HowItWorks />
       <Pricing />
