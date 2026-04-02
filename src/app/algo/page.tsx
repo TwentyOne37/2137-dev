@@ -193,13 +193,13 @@ function Nav() {
 /* ── HERO ─────────────────────────────────────────────────── */
 function Hero() {
   return (
-    <section className="relative overflow-hidden pt-32 pb-20">
+    <section className="relative overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,184,0,0.04),transparent_60%)]" />
 
-      <div className="relative mx-auto max-w-5xl px-6 text-center">
+      <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6">
         {/* status */}
         <FadeIn delay={100}>
-          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#1a1a1a] bg-white/[0.02] px-4 py-1.5 text-[11px] uppercase tracking-[0.2em] text-[#444]">
+          <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#1a1a1a] bg-white/[0.02] px-3 py-1 text-[9px] uppercase tracking-[0.15em] text-[#444] sm:mt-6 sm:gap-2 sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.2em]">
             <Dot color="amber" />
             <span>Founding members only</span>
             <span className="text-[#333]">·</span>
@@ -209,7 +209,7 @@ function Hero() {
 
         {/* headline */}
         <FadeIn delay={200}>
-          <h1 className="mx-auto mt-8 max-w-3xl text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight text-white">
+          <h1 className="mx-auto mt-6 max-w-3xl text-[clamp(1.75rem,5vw,4.5rem)] font-bold leading-[1.1] tracking-tight text-white sm:mt-8">
             Real-time trading terminal
             <br />
             for <DexCycler />.
@@ -218,7 +218,7 @@ function Hero() {
 
         {/* subtitle */}
         <FadeIn delay={300}>
-          <p className={`mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-[#888] ${sans}`}>
+          <p className={`mx-auto mt-4 max-w-2xl text-[13px] leading-relaxed text-[#888] sm:mt-5 sm:text-sm ${sans}`}>
             The first TradingView-like experience for Solana memecoins.
             Fastest live charts, 10 indicators computed in Rust, strategy builder, paper
             trading, and live execution.
@@ -227,16 +227,16 @@ function Hero() {
 
         {/* CTAs */}
         <FadeIn delay={400}>
-          <div className="mt-8 flex justify-center gap-4">
+          <div className="mt-6 flex justify-center gap-3 sm:mt-8 sm:gap-4">
             <a
               href="#pricing"
-              className="rounded bg-[#ffb800] px-7 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-black transition hover:bg-[#e0a200]"
+              className="rounded bg-[#ffb800] px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-black transition hover:bg-[#e0a200] sm:px-7 sm:py-3 sm:text-[12px]"
             >
               Get early access
             </a>
             <a
               href="#features"
-              className="rounded border border-[#1a1a1a] px-7 py-3 text-[12px] uppercase tracking-[0.15em] text-[#555] transition hover:border-[#555] hover:text-white"
+              className="rounded border border-[#1a1a1a] px-5 py-2.5 text-[11px] uppercase tracking-[0.15em] text-[#555] transition hover:border-[#555] hover:text-white sm:px-7 sm:py-3 sm:text-[12px]"
             >
               Learn more
             </a>
@@ -245,7 +245,7 @@ function Hero() {
 
         {/* stats strip */}
         <FadeIn delay={500}>
-          <div className="mx-auto mt-14 grid max-w-2xl grid-cols-2 sm:grid-cols-4 border border-[#1a1a1a] bg-[#0e0e0e]">
+          <div className="mx-auto mt-10 grid max-w-2xl grid-cols-4 border border-[#1a1a1a] bg-[#0e0e0e] sm:mt-14">
             {[
               { label: "Indicators", value: "10" },
               { label: "Timeframes", value: "6" },
@@ -254,12 +254,12 @@ function Hero() {
             ].map((s, i) => (
               <div
                 key={s.label}
-                className={`px-4 py-2.5 ${i !== 0 ? "border-l border-[#1a1a1a]" : ""}`}
+                className={`px-2 py-2 text-center sm:px-4 sm:py-2.5 sm:text-left ${i !== 0 ? "border-l border-[#1a1a1a]" : ""}`}
               >
-                <div className="text-[9px] uppercase tracking-[0.2em] text-[#444]">
+                <div className="text-[8px] uppercase tracking-[0.15em] text-[#444] sm:text-[9px] sm:tracking-[0.2em]">
                   {s.label}
                 </div>
-                <div className="mt-0.5 text-[13px] font-semibold text-white">
+                <div className="mt-0.5 text-[12px] font-semibold text-white sm:text-[13px]">
                   {s.value}
                 </div>
               </div>
@@ -274,13 +274,13 @@ function Hero() {
 /* ── DEMO VIDEO PLACEHOLDER ──────────────────────────────── */
 function DemoVideo() {
   return (
-    <section className="py-12">
-      <div className="mx-auto max-w-5xl px-6">
+    <section className="py-8 sm:py-12">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
           <div className="group relative flex aspect-video cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-[#1a1a1a] bg-[#0e0e0e] transition hover:border-[#333]">
             {/* play icon */}
-            <div className="flex flex-col items-center gap-3">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#ffb800]/40 bg-[#ffb800]/10 transition group-hover:border-[#ffb800]/70 group-hover:bg-[#ffb800]/20">
+            <div className="flex flex-col items-center gap-2 sm:gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#ffb800]/40 bg-[#ffb800]/10 transition group-hover:border-[#ffb800]/70 group-hover:bg-[#ffb800]/20 sm:h-16 sm:w-16">
                 <svg
                   className="ml-1 h-6 w-6 text-[#ffb800]"
                   fill="currentColor"
@@ -304,8 +304,8 @@ function DemoVideo() {
 /* ── FEATURES ─────────────────────────────────────────────── */
 function Features() {
   return (
-    <section id="features" className="border-t border-[#1a1a1a] py-20">
-      <div className="mx-auto max-w-5xl px-6">
+    <section id="features" className="border-t border-[#1a1a1a] py-12 sm:py-20">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
           <div className="text-center">
             <div className="text-[10px] uppercase tracking-[0.25em] text-[#444]">
@@ -321,10 +321,10 @@ function Features() {
           </div>
         </FadeIn>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-3 sm:mt-12 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
             <FadeIn key={f.title} delay={i * 80}>
-              <div className={`rounded-lg border border-[#1a1a1a] border-l-2 ${f.border} bg-[#0e0e0e] p-6 transition hover:border-[#333] hover:border-l-2 hover:bg-[#111]`}>
+              <div className={`rounded-lg border border-[#1a1a1a] border-l-2 ${f.border} bg-[#0e0e0e] p-4 transition hover:border-[#333] hover:border-l-2 hover:bg-[#111] sm:p-6`}>
                 <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#ffb800]">
                   {f.title}
                 </div>
@@ -343,8 +343,8 @@ function Features() {
 /* ── HOW IT WORKS ─────────────────────────────────────────── */
 function HowItWorks() {
   return (
-    <section id="how-it-works" className="border-t border-[#1a1a1a] py-20">
-      <div className="mx-auto max-w-5xl px-6">
+    <section id="how-it-works" className="border-t border-[#1a1a1a] py-12 sm:py-20">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
           <div className="text-center">
             <div className="text-[10px] uppercase tracking-[0.25em] text-[#444]">
@@ -356,11 +356,11 @@ function HowItWorks() {
           </div>
         </FadeIn>
 
-        <div className="mx-auto mt-10 grid max-w-3xl gap-4 sm:grid-cols-3">
+        <div className="mx-auto mt-8 grid max-w-3xl gap-3 sm:mt-10 sm:grid-cols-3 sm:gap-4">
           {STEPS.map((step, i) => (
             <FadeIn key={step.num} delay={i * 120}>
-              <div className="rounded-lg border border-[#1a1a1a] bg-[#0e0e0e] p-6 text-center">
-                <div className="text-[28px] font-bold text-[#ffb800]/30">
+              <div className="rounded-lg border border-[#1a1a1a] bg-[#0e0e0e] p-4 text-center sm:p-6">
+                <div className="text-[24px] font-bold text-[#ffb800]/30 sm:text-[28px]">
                   {step.num}
                 </div>
                 <div className="mt-2 text-[15px] font-semibold text-white">
@@ -381,14 +381,14 @@ function HowItWorks() {
 /* ── SOCIAL PROOF ─────────────────────────────────────────── */
 function SocialProof() {
   return (
-    <section className="py-12">
-      <div className="mx-auto max-w-5xl px-6">
+    <section className="py-8 sm:py-12">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             {BADGES.map((badge) => (
               <span
                 key={badge}
-                className="rounded-full border border-[#1a1a1a] bg-[#0e0e0e] px-4 py-1.5 text-[11px] uppercase tracking-[0.15em] text-[#555]"
+                className="rounded-full border border-[#1a1a1a] bg-[#0e0e0e] px-3 py-1 text-[9px] uppercase tracking-[0.1em] text-[#555] sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.15em]"
               >
                 {badge}
               </span>
@@ -403,8 +403,8 @@ function SocialProof() {
 /* ── PRICING ──────────────────────────────────────────────── */
 function Pricing() {
   return (
-    <section id="pricing" className="border-t border-[#1a1a1a] py-20">
-      <div className="mx-auto max-w-5xl px-6">
+    <section id="pricing" className="border-t border-[#1a1a1a] py-12 sm:py-20">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
           <div className="text-center">
             <div className="text-[10px] uppercase tracking-[0.25em] text-[#444]">
@@ -420,7 +420,7 @@ function Pricing() {
         </FadeIn>
 
         <FadeIn delay={100}>
-          <div className="mx-auto mt-10 max-w-md rounded-xl border border-[#ffb800]/20 bg-[#ffb800]/[0.03] p-8 shadow-[0_0_60px_rgba(245,158,11,0.06)]">
+          <div className="mx-auto mt-8 max-w-md rounded-xl border border-[#ffb800]/20 bg-[#ffb800]/[0.03] p-6 sm:mt-10 sm:p-8 shadow-[0_0_60px_rgba(245,158,11,0.06)]">
             <div className="flex items-baseline justify-between">
               <span className="text-[11px] font-bold tracking-[0.2em] text-[#ffb800]">
                 FOUNDING MEMBER
@@ -484,8 +484,8 @@ function Pricing() {
 /* ── FOOTER ───────────────────────────────────────────────── */
 function Footer() {
   return (
-    <footer className="border-t border-[#1a1a1a] py-8">
-      <div className="mx-auto max-w-5xl px-6">
+    <footer className="border-t border-[#1a1a1a] py-6 sm:py-8">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <p className={`mb-6 text-center text-sm text-[#555] ${sans}`}>
           Stop trading PumpSwap blind. Get institutional-grade tools.
         </p>
