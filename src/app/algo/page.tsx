@@ -525,10 +525,61 @@ function Footer() {
   );
 }
 
+/* ── ANIMATED DOT GRID BACKGROUND ─────────────────────────── */
+const dotGridStyles = `
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(40px, 30px); }
+  50% { transform: translate(-20px, 60px); }
+  75% { transform: translate(-40px, -20px); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(-50px, -40px); }
+  66% { transform: translate(30px, -50px); }
+}
+`;
+
+function DotGrid() {
+  return (
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      <style dangerouslySetInnerHTML={{ __html: dotGridStyles }} />
+      {/* dot pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.07]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, #ffb800 0.8px, transparent 0.8px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
+      {/* animated amber glow that drifts across the dots */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 600px 400px at 30% 20%, rgba(255,184,0,0.06), transparent 70%)",
+          animation: "drift 25s ease-in-out infinite",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 500px 350px at 70% 60%, rgba(255,184,0,0.04), transparent 70%)",
+          animation: "drift2 30s ease-in-out infinite",
+        }}
+      />
+    </div>
+  );
+}
+
 /* ── PAGE ─────────────────────────────────────────────────── */
 export default function AlgoLandingPage() {
   return (
-    <main className="min-h-screen bg-[#0c0c0c]">
+    <main className="relative min-h-screen bg-[#0c0c0c]">
+      <DotGrid />
+      <div className="relative z-10">
       <Nav />
       <Hero />
       <DemoVideo />
@@ -537,6 +588,7 @@ export default function AlgoLandingPage() {
       <SocialProof />
       <Pricing />
       <Footer />
+      </div>
     </main>
   );
 }
