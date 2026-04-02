@@ -152,13 +152,6 @@ function Nav() {
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#0a0a0f]/90 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
         <div className="flex items-center gap-3">
-          <Image
-            src="/algo-logo.png"
-            alt="ALGO"
-            width={32}
-            height={32}
-            className="rounded-lg"
-          />
           <span className="text-[13px] font-bold tracking-wide text-white">
             algo-trader
             <span className="ml-2 rounded bg-emerald-500/20 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-emerald-400">
@@ -198,18 +191,6 @@ function Hero() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.08),transparent_60%)]" />
 
       <div className="relative mx-auto max-w-5xl px-6 text-center">
-        {/* logo */}
-        <FadeIn className="flex justify-center">
-          <Image
-            src="/algo-logo.png"
-            alt="ALGO"
-            width={100}
-            height={100}
-            className="rounded-2xl"
-            priority
-          />
-        </FadeIn>
-
         {/* status */}
         <FadeIn delay={100}>
           <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/5 bg-white/[0.03] px-4 py-1.5 text-[11px] uppercase tracking-[0.2em] text-white/40">
