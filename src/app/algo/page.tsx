@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 
 /* ── scroll reveal ─────────────────────────────────────────── */
@@ -57,6 +57,34 @@ function Dot({ color = "green" }: { color?: "green" | "amber" | "red" }) {
   return <span className={`inline-block h-2 w-2 rounded-full ${c}`} />;
 }
 
+/* ── DEX NAME CYCLER ──────────────────────────────────────── */
+const DEX_NAMES = ["PumpSwap", "Raydium", "Pump.fun"];
+
+function DexCycler() {
+  const [index, setIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setIndex((i) => (i + 1) % DEX_NAMES.length);
+        setFade(true);
+      }, 300);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <span
+      className="inline-block bg-gradient-to-r from-purple-400 via-[#ffb800] to-emerald-400 bg-clip-text text-transparent transition-opacity duration-300"
+      style={{ opacity: fade ? 1 : 0 }}
+    >
+      {DEX_NAMES[index]}
+    </span>
+  );
+}
+
 /* ── DATA ─────────────────────────────────────────────────── */
 const FEATURES = [
   {
@@ -65,13 +93,13 @@ const FEATURES = [
     accent: "text-emerald-400",
   },
   {
-    title: "7 Technical Indicators",
-    desc: "EMA Cross, RSI, DMI/ADX, Supertrend, CCI, TRIX, Ichimoku Cloud. All computed in Rust for speed.",
+    title: "10 Technical Indicators",
+    desc: "EMA Cross, RSI, DMI/ADX, Supertrend, CCI, TRIX, Ichimoku Cloud, MACD, Bollinger Bands, VWAP. All computed in Rust.",
     accent: "text-purple-400",
   },
   {
     title: "Strategy Builder",
-    desc: "Custom buy/sell conditions across all indicators. Proven presets included. Rolling window confirmation.",
+    desc: "Custom buy/sell conditions across all indicators. 3 proven presets included. Rolling window confirmation.",
     accent: "text-[#ffb800]",
   },
   {
@@ -89,16 +117,6 @@ const FEATURES = [
     desc: "Historical backfill and gap-fill via Helius RPC. Graceful reconnects. Never miss a candle.",
     accent: "text-[#ffb800]",
   },
-];
-
-const TECH_STACK = [
-  "Rust",
-  "Solana",
-  "Helius gRPC",
-  "Redis",
-  "ClickHouse",
-  "Next.js",
-  "TradingView Charts",
 ];
 
 const STEPS = [
@@ -121,7 +139,7 @@ const STEPS = [
 
 const PRICING_FEATURES = [
   "Unlimited positions",
-  "All 7 technical indicators",
+  "All 10 technical indicators",
   "Strategy builder with presets",
   "Paper trading simulator",
   "Live execution on PumpSwap",
@@ -207,21 +225,11 @@ function Hero() {
           <h1 className="mx-auto mt-8 max-w-3xl text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight text-white">
             Automated trading
             <br />
-            <span className="bg-gradient-to-r from-purple-400 via-[#ffb800] to-emerald-400 bg-clip-text text-transparent">
-              for PumpSwap.
-            </span>
+            for <DexCycler />.
           </h1>
         </FadeIn>
 
         <FadeIn delay={300}>
-          <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-white/40">
-            The first TradingView-like charting experience for Solana memecoins.
-            Live candles, 7 technical indicators, strategy builder, and automated
-            execution — all powered by sub-second data from Helius&nbsp;gRPC.
-          </p>
-        </FadeIn>
-
-        <FadeIn delay={400}>
           <div className="mt-8 flex justify-center gap-4">
             <a
               href="#pricing"
@@ -237,55 +245,29 @@ function Hero() {
             </a>
           </div>
         </FadeIn>
-
-        {/* stats */}
-        <FadeIn delay={500}>
-          <div className="mx-auto mt-14 grid max-w-2xl grid-cols-4 divide-x divide-white/5 rounded-lg border border-white/5 bg-white/[0.02]">
-            {[
-              { label: "Indicators", value: "7" },
-              { label: "Timeframes", value: "4" },
-              { label: "Latency", value: "<1s" },
-              { label: "Presets", value: "2" },
-            ].map((s) => (
-              <div key={s.label} className="px-4 py-4 text-center">
-                <div className="text-[22px] font-bold text-white">{s.value}</div>
-                <div className="mt-0.5 text-[10px] uppercase tracking-[0.2em] text-white/25">
-                  {s.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </FadeIn>
       </div>
     </section>
   );
 }
 
-/* ── APP PREVIEW PLACEHOLDER ──────────────────────────────── */
-function AppPreview() {
+/* ── HERO IMAGE ───────────────────────────────────────────── */
+function HeroImage() {
   return (
-    <section className="border-t border-white/5 py-20">
+    <section className="py-12">
       <div className="mx-auto max-w-5xl px-6">
         <FadeIn>
-          <div className="relative overflow-hidden rounded-xl border border-white/5 bg-white/[0.02]">
-            {/* mock window chrome */}
-            <div className="flex items-center gap-2 border-b border-white/5 px-4 py-3">
-              <span className="h-2.5 w-2.5 rounded-full bg-red-400/60" />
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-400/60" />
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/60" />
-              <span className="ml-3 text-[10px] text-white/20">algo.2137.dev</span>
-            </div>
-
-            <div className="flex aspect-[16/9] items-center justify-center p-12">
-              <div className="text-center">
-                <div className="text-[11px] uppercase tracking-[0.25em] text-white/20">
-                  App preview coming soon
-                </div>
-                <p className="mt-2 text-[13px] text-white/10">
-                  Portfolio management · Live charts · Strategy builder
-                </p>
-              </div>
-            </div>
+          <div className="relative overflow-hidden rounded-2xl">
+            <Image
+              src="/algo-hero.png"
+              alt="Automated trading with candlestick charts"
+              width={1200}
+              height={675}
+              className="w-full object-cover"
+              priority
+            />
+            {/* fade edges into background */}
+            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent opacity-60" />
           </div>
         </FadeIn>
       </div>
@@ -328,19 +310,6 @@ function Features() {
           ))}
         </div>
 
-        {/* tech stack */}
-        <FadeIn delay={500}>
-          <div className="mt-10 flex flex-wrap justify-center gap-2">
-            {TECH_STACK.map((t) => (
-              <span
-                key={t}
-                className="rounded border border-white/5 bg-white/[0.02] px-3 py-1 text-[10px] uppercase tracking-wider text-white/25"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-        </FadeIn>
       </div>
     </section>
   );
@@ -506,7 +475,7 @@ export default function AlgoLandingPage() {
     <main className="min-h-screen bg-[#0a0a0f]">
       <Nav />
       <Hero />
-      <AppPreview />
+      <HeroImage />
       <Features />
       <HowItWorks />
       <Pricing />
