@@ -277,22 +277,16 @@ function DemoVideo() {
     <section className="py-8 sm:py-12">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
-          <div className="group relative flex aspect-video cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-[#1a1a1a] bg-[#0e0e0e] transition hover:border-[#333]">
-            {/* play icon */}
-            <div className="flex flex-col items-center gap-2 sm:gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#ffb800]/40 bg-[#ffb800]/10 transition group-hover:border-[#ffb800]/70 group-hover:bg-[#ffb800]/20 sm:h-16 sm:w-16">
-                <svg
-                  className="ml-1 h-6 w-6 text-[#ffb800]"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-[#444]">
-                Watch the demo
-              </span>
-            </div>
+          <div className="overflow-hidden rounded-lg border border-[#1a1a1a]">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full"
+            >
+              <source src="/algo-demo.mp4" type="video/mp4" />
+            </video>
           </div>
         </FadeIn>
       </div>
