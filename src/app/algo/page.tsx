@@ -398,7 +398,10 @@ function SocialProof() {
 function Pricing() {
   const [form, setForm] = useState({ email: "", telegram: "", twitter: "" });
   const [payUrl, setPayUrl] = useState<string | null>(null);
+  const [ref, setRef] = useState("");
+  const [step, setStep] = useState<"form" | "pay" | "done">("form");
   const [loading, setLoading] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -419,10 +422,31 @@ function Pricing() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setPayUrl(data.url);
+      setRef(data.ref);
+      setStep("pay");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleConfirm() {
+    setConfirming(true);
+    setError("");
+    try {
+      const res = await fetch("/api/pay/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ref, ...form }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setStep("done");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setConfirming(false);
     }
   }
 
@@ -479,7 +503,8 @@ function Pricing() {
               ))}
             </ul>
 
-            {!payUrl ? (
+            {/* ── STEP 1: Contact form ── */}
+            {step === "form" && (
               <form onSubmit={handleSubmit} className="mt-8 space-y-3">
                 <div className="text-[10px] uppercase tracking-[0.2em] text-[#4a5e78]">
                   How should we reach you?
@@ -519,10 +544,13 @@ function Pricing() {
                   At least one contact method required
                 </p>
               </form>
-            ) : (
+            )}
+
+            {/* ── STEP 2: Payment link + confirm ── */}
+            {step === "pay" && payUrl && (
               <div className="mt-8 space-y-4">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-emerald-400">
-                  Payment link ready
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[#4a5e78]">
+                  Step 1 — Send payment
                 </div>
                 <div className="overflow-hidden rounded border border-[#1e2d3d] bg-[#0d1117] p-3">
                   <p className={`break-all text-[12px] text-[#6b8299] ${sans}`}>
@@ -547,8 +575,38 @@ function Pricing() {
                     {copied ? "Copied" : "Copy"}
                   </button>
                 </div>
-                <p className={`text-center text-[11px] text-[#4a5e78] ${sans}`}>
-                  Send exactly $50 USDC. Access is granted after confirmation.
+
+                <div className="border-t border-[#1e2d3d] pt-4">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-[#4a5e78]">
+                    Step 2 — Confirm after sending
+                  </div>
+                  {error && (
+                    <p className={`mt-2 text-[12px] text-red-400 ${sans}`}>{error}</p>
+                  )}
+                  <button
+                    onClick={handleConfirm}
+                    disabled={confirming}
+                    className="mt-3 w-full rounded border border-emerald-500/30 bg-emerald-500/10 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-emerald-400 transition hover:bg-emerald-500/20 disabled:opacity-50"
+                  >
+                    {confirming ? "Confirming..." : "I\u2019ve sent the payment"}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* ── STEP 3: Done ── */}
+            {step === "done" && (
+              <div className="mt-8 text-center">
+                <div className="text-[28px]">&#10003;</div>
+                <p className="mt-2 text-[15px] font-semibold text-white">
+                  You&apos;re all set.
+                </p>
+                <p className={`mt-2 text-[13px] text-[#6b8299] ${sans}`}>
+                  We&apos;ll verify your payment and reach out within 24 hours
+                  via your preferred contact method.
+                </p>
+                <p className={`mt-4 text-[11px] text-[#4a5e78] ${sans}`}>
+                  Ref: <span className="font-mono text-[#5a7490]">{ref}</span>
                 </p>
               </div>
             )}

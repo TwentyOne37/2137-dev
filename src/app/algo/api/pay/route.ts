@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { escapeHtml, sendTelegram } from "@/lib/telegram";
 
 const USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
 const MAX_FIELD_LEN = 200;
@@ -29,22 +28,6 @@ export async function POST(request: Request) {
 
   const ref = crypto.randomUUID().slice(0, 8);
   const amount = process.env.PAYMENT_AMOUNT ?? "50";
-
-  // Notify owner immediately with contact info
-  const contactLines = [
-    email && `Email: ${escapeHtml(email)}`,
-    telegram && `Telegram: ${escapeHtml(telegram)}`,
-    twitter && `Twitter: ${escapeHtml(twitter)}`,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  await sendTelegram(
-    `<b>New signup — awaiting payment</b>\n\n` +
-      `Ref: <code>${ref}</code>\n` +
-      `${contactLines}\n\n` +
-      `Amount: <code>${amount} USDC</code>`,
-  );
 
   const url =
     `solana:${recipient}` +
