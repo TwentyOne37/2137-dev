@@ -6,14 +6,11 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import {
   PublicKey,
   Transaction,
-  SystemProgram,
 } from "@solana/web3.js";
 import {
   getAssociatedTokenAddressSync,
   createTransferInstruction,
-  createAssociatedTokenAccountInstruction,
-  TOKEN_PROGRAM_ID,
-  ASSOCIATED_TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountIdempotentInstruction,
 } from "@solana/spl-token";
 
 const USDC_MINT = new PublicKey(
@@ -71,18 +68,15 @@ export default function PayButton({
 
       const tx = new Transaction();
 
-      // Create recipient ATA if it doesn't exist
-      const recipientAtaInfo = await connection.getAccountInfo(recipientAta);
-      if (!recipientAtaInfo) {
-        tx.add(
-          createAssociatedTokenAccountInstruction(
-            publicKey,
-            recipientAta,
-            recipient,
-            USDC_MINT,
-          ),
-        );
-      }
+      // Idempotent: creates ATA if needed, no-op if it exists (no RPC call)
+      tx.add(
+        createAssociatedTokenAccountIdempotentInstruction(
+          publicKey,
+          recipientAta,
+          recipient,
+          USDC_MINT,
+        ),
+      );
 
       // USDC transfer
       tx.add(
