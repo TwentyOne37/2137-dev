@@ -293,7 +293,7 @@ function DemoVideo() {
               playsInline
               className="w-full"
             >
-              <source src="https://github.com/TwentyOne37/2137-dev/releases/download/v0.1.0/hero2.mp4" type="video/mp4" />
+              <source src="https://github.com/TwentyOne37/2137-dev/releases/download/v0.1.0/hero.mp4" type="video/mp4" />
             </video>
           </div>
         </FadeIn>
