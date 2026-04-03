@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-const USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
 const MAX_FIELD_LEN = 200;
 
 function sanitize(val: unknown): string {
@@ -9,8 +8,8 @@ function sanitize(val: unknown): string {
 }
 
 export async function POST(request: Request) {
-  const recipient = process.env.OWNER_WALLET;
-  if (!recipient) {
+  const wallet = process.env.OWNER_WALLET;
+  if (!wallet) {
     return NextResponse.json({ error: "not configured" }, { status: 500 });
   }
 
@@ -29,13 +28,5 @@ export async function POST(request: Request) {
   const ref = crypto.randomUUID().slice(0, 8);
   const amount = process.env.PAYMENT_AMOUNT ?? "50";
 
-  const url =
-    `solana:${recipient}` +
-    `?amount=${amount}` +
-    `&spl-token=${USDC_MINT}` +
-    `&memo=${encodeURIComponent(ref)}` +
-    `&label=${encodeURIComponent("algo-trader")}` +
-    `&message=${encodeURIComponent("Founding Member Access")}`;
-
-  return NextResponse.json({ url, ref, amount });
+  return NextResponse.json({ wallet, ref, amount });
 }

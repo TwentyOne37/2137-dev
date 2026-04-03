@@ -397,13 +397,18 @@ function SocialProof() {
 /* ── PRICING ──────────────────────────────────────────────── */
 function Pricing() {
   const [form, setForm] = useState({ email: "", telegram: "", twitter: "" });
-  const [payUrl, setPayUrl] = useState<string | null>(null);
-  const [ref, setRef] = useState("");
+  const [payInfo, setPayInfo] = useState<{ wallet: string; ref: string; amount: string } | null>(null);
   const [step, setStep] = useState<"form" | "pay" | "done">("form");
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState("");
-  const [copied, setCopied] = useState(false);
+  const [copiedField, setCopiedField] = useState("");
+
+  function copyText(text: string, field: string) {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(""), 2000);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -421,8 +426,7 @@ function Pricing() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      setPayUrl(data.url);
-      setRef(data.ref);
+      setPayInfo(data);
       setStep("pay");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -432,13 +436,14 @@ function Pricing() {
   }
 
   async function handleConfirm() {
+    if (!payInfo) return;
     setConfirming(true);
     setError("");
     try {
       const res = await fetch("/api/pay/confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ref, ...form }),
+        body: JSON.stringify({ ref: payInfo.ref, ...form }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -546,47 +551,79 @@ function Pricing() {
               </form>
             )}
 
-            {/* ── STEP 2: Payment link + confirm ── */}
-            {step === "pay" && payUrl && (
-              <div className="mt-8 space-y-4">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-[#4a5e78]">
-                  Step 1 — Send payment
+            {/* ── STEP 2: Payment instructions + confirm ── */}
+            {step === "pay" && payInfo && (
+              <div className="mt-8 space-y-5">
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[#ffb800]">
+                  Send USDC from any Solana wallet
                 </div>
-                <div className="overflow-hidden rounded border border-[#1e2d3d] bg-[#0d1117] p-3">
-                  <p className={`break-all text-[12px] text-[#6b8299] ${sans}`}>
-                    {payUrl}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <a
-                    href={payUrl}
-                    className="flex-1 rounded bg-[#ffb800] py-3 text-center text-[12px] font-bold uppercase tracking-[0.15em] text-black transition hover:bg-[#e0a200]"
-                  >
-                    Open in Wallet
-                  </a>
+
+                {/* Wallet address */}
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.15em] text-[#4a5e78]">
+                    Recipient address
+                  </div>
                   <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(payUrl);
-                      setCopied(true);
-                      setTimeout(() => setCopied(false), 2000);
-                    }}
-                    className="rounded border border-[#1e2d3d] px-4 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-[#5a7490] transition hover:border-[#3a5068] hover:text-white"
+                    onClick={() => copyText(payInfo.wallet, "wallet")}
+                    className="mt-1.5 flex w-full items-center justify-between gap-2 rounded border border-[#1e2d3d] bg-[#0d1117] px-3 py-2.5 text-left transition hover:border-[#3a5068]"
                   >
-                    {copied ? "Copied" : "Copy"}
+                    <span className={`break-all text-[13px] font-mono text-white ${sans}`}>
+                      {payInfo.wallet}
+                    </span>
+                    <span className="shrink-0 text-[10px] uppercase tracking-wider text-[#4a5e78]">
+                      {copiedField === "wallet" ? "Copied" : "Copy"}
+                    </span>
                   </button>
                 </div>
 
-                <div className="border-t border-[#1e2d3d] pt-4">
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-[#4a5e78]">
-                    Step 2 — Confirm after sending
+                {/* Amount */}
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.15em] text-[#4a5e78]">
+                    Amount
                   </div>
+                  <button
+                    onClick={() => copyText(payInfo.amount, "amount")}
+                    className="mt-1.5 flex w-full items-center justify-between gap-2 rounded border border-[#1e2d3d] bg-[#0d1117] px-3 py-2.5 text-left transition hover:border-[#3a5068]"
+                  >
+                    <span className="text-[13px] font-mono text-white">
+                      {payInfo.amount} <span className="text-[#5a7490]">USDC</span>
+                    </span>
+                    <span className="shrink-0 text-[10px] uppercase tracking-wider text-[#4a5e78]">
+                      {copiedField === "amount" ? "Copied" : "Copy"}
+                    </span>
+                  </button>
+                </div>
+
+                {/* Memo */}
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.15em] text-[#4a5e78]">
+                    Memo <span className="text-[#364a5e]">(include in your transaction)</span>
+                  </div>
+                  <button
+                    onClick={() => copyText(payInfo.ref, "memo")}
+                    className="mt-1.5 flex w-full items-center justify-between gap-2 rounded border border-[#1e2d3d] bg-[#0d1117] px-3 py-2.5 text-left transition hover:border-[#3a5068]"
+                  >
+                    <span className="text-[13px] font-mono text-[#ffb800]">
+                      {payInfo.ref}
+                    </span>
+                    <span className="shrink-0 text-[10px] uppercase tracking-wider text-[#4a5e78]">
+                      {copiedField === "memo" ? "Copied" : "Copy"}
+                    </span>
+                  </button>
+                </div>
+
+                {/* Confirm */}
+                <div className="border-t border-[#1e2d3d] pt-4">
+                  <p className={`mb-3 text-[12px] text-[#6b8299] ${sans}`}>
+                    After sending, confirm below so we can verify and grant access.
+                  </p>
                   {error && (
-                    <p className={`mt-2 text-[12px] text-red-400 ${sans}`}>{error}</p>
+                    <p className={`mb-2 text-[12px] text-red-400 ${sans}`}>{error}</p>
                   )}
                   <button
                     onClick={handleConfirm}
                     disabled={confirming}
-                    className="mt-3 w-full rounded border border-emerald-500/30 bg-emerald-500/10 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-emerald-400 transition hover:bg-emerald-500/20 disabled:opacity-50"
+                    className="w-full rounded border border-emerald-500/30 bg-emerald-500/10 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-emerald-400 transition hover:bg-emerald-500/20 disabled:opacity-50"
                   >
                     {confirming ? "Confirming..." : "I\u2019ve sent the payment"}
                   </button>
@@ -606,7 +643,7 @@ function Pricing() {
                   via your preferred contact method.
                 </p>
                 <p className={`mt-4 text-[11px] text-[#4a5e78] ${sans}`}>
-                  Ref: <span className="font-mono text-[#5a7490]">{ref}</span>
+                  Ref: <span className="font-mono text-[#5a7490]">{payInfo?.ref}</span>
                 </p>
               </div>
             )}
