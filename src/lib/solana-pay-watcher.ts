@@ -18,6 +18,10 @@ function getATA(owner: PublicKey, mint: PublicKey): PublicKey {
   return ata;
 }
 
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 async function sendTelegram(text: string) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -104,9 +108,9 @@ export function startWatcher() {
         const session = memo ? getSession(memo) : undefined;
         const contactLines = session
           ? [
-              session.email && `Email: ${session.email}`,
-              session.telegram && `Telegram: ${session.telegram}`,
-              session.twitter && `Twitter: ${session.twitter}`,
+              session.email && `Email: ${escapeHtml(session.email)}`,
+              session.telegram && `Telegram: ${escapeHtml(session.telegram)}`,
+              session.twitter && `Twitter: ${escapeHtml(session.twitter)}`,
             ]
               .filter(Boolean)
               .join("\n")
