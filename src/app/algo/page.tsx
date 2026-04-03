@@ -1,6 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+
+const SolanaProviders = dynamic(() => import("./solana-providers"), {
+  ssr: false,
+});
+const PayButton = dynamic(() => import("./components/pay-button"), {
+  ssr: false,
+});
 
 /* ── scroll reveal ─────────────────────────────────────────── */
 function FadeIn({
@@ -397,62 +405,36 @@ function SocialProof() {
 /* ── PRICING ──────────────────────────────────────────────── */
 function Pricing() {
   const [form, setForm] = useState({ email: "", telegram: "", twitter: "" });
-  const [payInfo, setPayInfo] = useState<{ wallet: string; ref: string; amount: string } | null>(null);
-  const [step, setStep] = useState<"form" | "pay" | "done">("form");
-  const [loading, setLoading] = useState(false);
-  const [confirming, setConfirming] = useState(false);
+  const [step, setStep] = useState<"contact" | "pay" | "done">("contact");
   const [error, setError] = useState("");
-  const [copiedField, setCopiedField] = useState("");
+  const [wallet, setWallet] = useState("");
+  const [amount, setAmount] = useState("50");
+  const [txRef, setTxRef] = useState("");
 
-  function copyText(text: string, field: string) {
-    navigator.clipboard.writeText(text);
-    setCopiedField(field);
-    setTimeout(() => setCopiedField(""), 2000);
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
+  function handleContactSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.email && !form.telegram && !form.twitter) {
       setError("Please provide at least one contact method");
       return;
     }
-    setLoading(true);
     setError("");
-    try {
-      const res = await fetch("/api/pay", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      setPayInfo(data);
-      setStep("pay");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleConfirm() {
-    if (!payInfo) return;
-    setConfirming(true);
-    setError("");
-    try {
-      const res = await fetch("/api/pay/confirm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ref: payInfo.ref, ...form }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      setStep("done");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setConfirming(false);
-    }
+    // Fetch wallet address from server
+    fetch("/api/pay", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+          return;
+        }
+        setWallet(data.wallet);
+        setAmount(data.amount);
+        setStep("pay");
+      })
+      .catch(() => setError("Something went wrong"));
   }
 
   const inputClass = `w-full rounded border border-[#1e2d3d] bg-[#0d1117] px-3 py-2 text-[13px] text-white placeholder-[#364a5e] outline-none transition focus:border-[#ffb800]/50 ${sans}`;
@@ -490,7 +472,6 @@ function Pricing() {
               <span className={`text-[16px] text-[#5a7490] ${sans}`}>/mo</span>
             </div>
 
-            {/* spots remaining */}
             <div className="mt-3 flex items-center gap-2">
               <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-[#ffb800]" />
               <span className="text-sm text-[#ffb800]">17/20 spots remaining</span>
@@ -508,9 +489,9 @@ function Pricing() {
               ))}
             </ul>
 
-            {/* ── STEP 1: Contact form ── */}
-            {step === "form" && (
-              <form onSubmit={handleSubmit} className="mt-8 space-y-3">
+            {/* ── Contact form ── */}
+            {step === "contact" && (
+              <form onSubmit={handleContactSubmit} className="mt-8 space-y-3">
                 <div className="text-[10px] uppercase tracking-[0.2em] text-[#4a5e78]">
                   How should we reach you?
                 </div>
@@ -540,10 +521,9 @@ function Pricing() {
                 )}
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="w-full rounded bg-[#ffb800] py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-black transition hover:bg-[#e0a200] disabled:opacity-50"
+                  className="w-full rounded bg-[#ffb800] py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-black transition hover:bg-[#e0a200]"
                 >
-                  {loading ? "Generating..." : "Get Payment Link"}
+                  Continue to payment
                 </button>
                 <p className={`text-center text-[11px] text-[#4a5e78] ${sans}`}>
                   At least one contact method required
@@ -551,100 +531,40 @@ function Pricing() {
               </form>
             )}
 
-            {/* ── STEP 2: Payment instructions + confirm ── */}
-            {step === "pay" && payInfo && (
-              <div className="mt-8 space-y-5">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-[#ffb800]">
-                  Send USDC from any Solana wallet
-                </div>
-
-                {/* Wallet address */}
-                <div>
-                  <div className="text-[10px] uppercase tracking-[0.15em] text-[#4a5e78]">
-                    Recipient address
-                  </div>
-                  <button
-                    onClick={() => copyText(payInfo.wallet, "wallet")}
-                    className="mt-1.5 flex w-full items-center justify-between gap-2 rounded border border-[#1e2d3d] bg-[#0d1117] px-3 py-2.5 text-left transition hover:border-[#3a5068]"
-                  >
-                    <span className={`break-all text-[13px] font-mono text-white ${sans}`}>
-                      {payInfo.wallet}
-                    </span>
-                    <span className="shrink-0 text-[10px] uppercase tracking-wider text-[#4a5e78]">
-                      {copiedField === "wallet" ? "Copied" : "Copy"}
-                    </span>
-                  </button>
-                </div>
-
-                {/* Amount */}
-                <div>
-                  <div className="text-[10px] uppercase tracking-[0.15em] text-[#4a5e78]">
-                    Amount
-                  </div>
-                  <button
-                    onClick={() => copyText(payInfo.amount, "amount")}
-                    className="mt-1.5 flex w-full items-center justify-between gap-2 rounded border border-[#1e2d3d] bg-[#0d1117] px-3 py-2.5 text-left transition hover:border-[#3a5068]"
-                  >
-                    <span className="text-[13px] font-mono text-white">
-                      {payInfo.amount} <span className="text-[#5a7490]">USDC</span>
-                    </span>
-                    <span className="shrink-0 text-[10px] uppercase tracking-wider text-[#4a5e78]">
-                      {copiedField === "amount" ? "Copied" : "Copy"}
-                    </span>
-                  </button>
-                </div>
-
-                {/* Memo */}
-                <div>
-                  <div className="text-[10px] uppercase tracking-[0.15em] text-[#4a5e78]">
-                    Memo <span className="text-[#364a5e]">(include in your transaction)</span>
-                  </div>
-                  <button
-                    onClick={() => copyText(payInfo.ref, "memo")}
-                    className="mt-1.5 flex w-full items-center justify-between gap-2 rounded border border-[#1e2d3d] bg-[#0d1117] px-3 py-2.5 text-left transition hover:border-[#3a5068]"
-                  >
-                    <span className="text-[13px] font-mono text-[#ffb800]">
-                      {payInfo.ref}
-                    </span>
-                    <span className="shrink-0 text-[10px] uppercase tracking-wider text-[#4a5e78]">
-                      {copiedField === "memo" ? "Copied" : "Copy"}
-                    </span>
-                  </button>
-                </div>
-
-                {/* Confirm */}
-                <div className="border-t border-[#1e2d3d] pt-4">
-                  <p className={`mb-3 text-[12px] text-[#6b8299] ${sans}`}>
-                    After sending, confirm below so we can verify and grant access.
-                  </p>
-                  {error && (
-                    <p className={`mb-2 text-[12px] text-red-400 ${sans}`}>{error}</p>
-                  )}
-                  <button
-                    onClick={handleConfirm}
-                    disabled={confirming}
-                    className="w-full rounded border border-emerald-500/30 bg-emerald-500/10 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-emerald-400 transition hover:bg-emerald-500/20 disabled:opacity-50"
-                  >
-                    {confirming ? "Confirming..." : "I\u2019ve sent the payment"}
-                  </button>
-                </div>
+            {/* ── One-click pay ── */}
+            {step === "pay" && wallet && (
+              <div className="mt-8">
+                <PayButton
+                  recipientWallet={wallet}
+                  amount={amount}
+                  contact={form}
+                  onSuccess={(sig, ref) => {
+                    setTxRef(ref);
+                    setStep("done");
+                  }}
+                />
+                <p className={`mt-3 text-center text-[11px] text-[#4a5e78] ${sans}`}>
+                  Connect your Solana wallet and pay {amount} USDC in one click
+                </p>
               </div>
             )}
 
-            {/* ── STEP 3: Done ── */}
+            {/* ── Done ── */}
             {step === "done" && (
               <div className="mt-8 text-center">
                 <div className="text-[28px]">&#10003;</div>
                 <p className="mt-2 text-[15px] font-semibold text-white">
-                  You&apos;re all set.
+                  Payment received.
                 </p>
                 <p className={`mt-2 text-[13px] text-[#6b8299] ${sans}`}>
-                  We&apos;ll verify your payment and reach out within 24 hours
-                  via your preferred contact method.
+                  We&apos;ll reach out within 24 hours via your preferred contact
+                  method to grant access.
                 </p>
-                <p className={`mt-4 text-[11px] text-[#4a5e78] ${sans}`}>
-                  Ref: <span className="font-mono text-[#5a7490]">{payInfo?.ref}</span>
-                </p>
+                {txRef && (
+                  <p className={`mt-4 text-[11px] text-[#4a5e78] ${sans}`}>
+                    Ref: <span className="font-mono text-[#5a7490]">{txRef}</span>
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -750,18 +670,20 @@ function DotGrid() {
 /* ── PAGE ─────────────────────────────────────────────────── */
 export default function AlgoLandingPage() {
   return (
-    <main className="relative min-h-screen bg-[#0d1117]">
-      <DotGrid />
-      <div className="relative z-10">
-      <Nav />
-      <Hero />
-      <DemoVideo />
-      <Features />
-      <HowItWorks />
-      <SocialProof />
-      <Pricing />
-      <Footer />
-      </div>
-    </main>
+    <SolanaProviders>
+      <main className="relative min-h-screen bg-[#0d1117]">
+        <DotGrid />
+        <div className="relative z-10">
+          <Nav />
+          <Hero />
+          <DemoVideo />
+          <Features />
+          <HowItWorks />
+          <SocialProof />
+          <Pricing />
+          <Footer />
+        </div>
+      </main>
+    </SolanaProviders>
   );
 }

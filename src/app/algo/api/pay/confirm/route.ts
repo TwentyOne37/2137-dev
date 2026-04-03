@@ -12,6 +12,8 @@ export async function POST(request: Request) {
   const body = await request.json();
 
   const ref = sanitize(body.ref);
+  const signature = sanitize(body.signature);
+  const payer = sanitize(body.payer);
   const email = sanitize(body.email);
   const telegram = sanitize(body.telegram);
   const twitter = sanitize(body.twitter);
@@ -40,13 +42,17 @@ export async function POST(request: Request) {
       `${contactLines}`,
   );
 
-  // Message 2: Payment reference
+  // Message 2: Payment confirmation with on-chain proof
   await sendTelegram(
-    `<b>Payment pending — ${escapeHtml(ref)}</b>\n\n` +
+    `<b>Payment confirmed — ${escapeHtml(ref)}</b>\n\n` +
       `Amount: <code>${amount} USDC</code>\n` +
-      `Memo: <code>${escapeHtml(ref)}</code>\n` +
-      `User claims payment sent.\n` +
-      `Verify on-chain or wait for Helius webhook.`,
+      (payer ? `Payer: <code>${escapeHtml(payer)}</code>\n` : "") +
+      (signature
+        ? `Tx: <code>${escapeHtml(signature)}</code>\n`
+        : `Memo: <code>${escapeHtml(ref)}</code>\nUser claims payment sent.\n`) +
+      (signature
+        ? `https://solscan.io/tx/${escapeHtml(signature)}`
+        : `Verify on-chain or wait for Helius webhook.`),
   );
 
   return NextResponse.json({ ok: true });
