@@ -396,6 +396,38 @@ function SocialProof() {
 
 /* ── PRICING ──────────────────────────────────────────────── */
 function Pricing() {
+  const [form, setForm] = useState({ email: "", telegram: "", twitter: "" });
+  const [payUrl, setPayUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!form.email && !form.telegram && !form.twitter) {
+      setError("Please provide at least one contact method");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/pay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setPayUrl(data.url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const inputClass = `w-full rounded border border-[#1e2d3d] bg-[#0d1117] px-3 py-2 text-[13px] text-white placeholder-[#364a5e] outline-none transition focus:border-[#ffb800]/50 ${sans}`;
+
   return (
     <section id="pricing" className="border-t border-[#1e2d3d] py-12 sm:py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
@@ -447,27 +479,79 @@ function Pricing() {
               ))}
             </ul>
 
-            <a
-              href="https://x.com/TwentyOne_37"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 block rounded bg-[#ffb800] py-3 text-center text-[12px] font-bold uppercase tracking-[0.15em] text-black transition hover:bg-[#e0a200]"
-            >
-              Pay with SOL / USDC
-            </a>
-
-            <p className={`mt-4 text-center text-[11px] text-[#4a5e78] ${sans}`}>
-              After payment, DM{" "}
-              <a
-                href="https://x.com/TwentyOne_37"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#ffb800] hover:underline"
-              >
-                @TwentyOne_37
-              </a>{" "}
-              with your wallet for instant access
-            </p>
+            {!payUrl ? (
+              <form onSubmit={handleSubmit} className="mt-8 space-y-3">
+                <div className="text-[10px] uppercase tracking-[0.2em] text-[#4a5e78]">
+                  How should we reach you?
+                </div>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className={inputClass}
+                />
+                <input
+                  type="text"
+                  placeholder="Telegram @handle"
+                  value={form.telegram}
+                  onChange={(e) => setForm({ ...form, telegram: e.target.value })}
+                  className={inputClass}
+                />
+                <input
+                  type="text"
+                  placeholder="X / Twitter @handle"
+                  value={form.twitter}
+                  onChange={(e) => setForm({ ...form, twitter: e.target.value })}
+                  className={inputClass}
+                />
+                {error && (
+                  <p className={`text-[12px] text-red-400 ${sans}`}>{error}</p>
+                )}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full rounded bg-[#ffb800] py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-black transition hover:bg-[#e0a200] disabled:opacity-50"
+                >
+                  {loading ? "Generating..." : "Get Payment Link"}
+                </button>
+                <p className={`text-center text-[11px] text-[#4a5e78] ${sans}`}>
+                  At least one contact method required
+                </p>
+              </form>
+            ) : (
+              <div className="mt-8 space-y-4">
+                <div className="text-[10px] uppercase tracking-[0.2em] text-emerald-400">
+                  Payment link ready
+                </div>
+                <div className="overflow-hidden rounded border border-[#1e2d3d] bg-[#0d1117] p-3">
+                  <p className={`break-all text-[12px] text-[#6b8299] ${sans}`}>
+                    {payUrl}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <a
+                    href={payUrl}
+                    className="flex-1 rounded bg-[#ffb800] py-3 text-center text-[12px] font-bold uppercase tracking-[0.15em] text-black transition hover:bg-[#e0a200]"
+                  >
+                    Open in Wallet
+                  </a>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(payUrl);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    }}
+                    className="rounded border border-[#1e2d3d] px-4 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-[#5a7490] transition hover:border-[#3a5068] hover:text-white"
+                  >
+                    {copied ? "Copied" : "Copy"}
+                  </button>
+                </div>
+                <p className={`text-center text-[11px] text-[#4a5e78] ${sans}`}>
+                  Send exactly $50 USDC. Access is granted after confirmation.
+                </p>
+              </div>
+            )}
           </div>
         </FadeIn>
       </div>

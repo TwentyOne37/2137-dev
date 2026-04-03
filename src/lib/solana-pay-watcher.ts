@@ -1,4 +1,5 @@
 import { Connection, PublicKey } from "@solana/web3.js";
+import { getSession } from "./payment-store";
 
 const USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
 const TOKEN_PROGRAM = new PublicKey(
@@ -99,13 +100,26 @@ export function startWatcher() {
           ? new Date(tx.blockTime * 1000).toISOString()
           : new Date().toISOString();
 
+        // Look up contact info from payment session
+        const session = memo ? getSession(memo) : undefined;
+        const contactLines = session
+          ? [
+              session.email && `Email: ${session.email}`,
+              session.telegram && `Telegram: ${session.telegram}`,
+              session.twitter && `Twitter: ${session.twitter}`,
+            ]
+              .filter(Boolean)
+              .join("\n")
+          : "";
+
         await sendTelegram(
           `<b>USDC payment received!</b>\n\n` +
             `Amount: <code>${received} USDC</code>\n` +
             `From: <code>${sender?.owner ?? "unknown"}</code>\n` +
             `Time: ${time}\n` +
-            (memo ? `Memo: ${memo}\n` : "") +
-            `Tx: <code>${signature}</code>`,
+            (contactLines ? `\n<b>Contact:</b>\n${contactLines}\n` : "") +
+            (memo && !session ? `Memo: ${memo}\n` : "") +
+            `\nTx: <code>${signature}</code>`,
         );
       }
     } catch (e) {
