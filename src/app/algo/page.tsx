@@ -410,6 +410,9 @@ function Pricing() {
   const [wallet, setWallet] = useState("");
   const [amount, setAmount] = useState("50");
   const [txRef, setTxRef] = useState("");
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountApplied, setDiscountApplied] = useState(false);
+  const [showPromo, setShowPromo] = useState(false);
 
   function handleContactSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -422,7 +425,7 @@ function Pricing() {
     fetch("/api/pay", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify({ ...form, discountCode }),
     })
       .then((r) => r.json())
       .then((data) => {
@@ -432,6 +435,7 @@ function Pricing() {
         }
         setWallet(data.wallet);
         setAmount(data.amount);
+        setDiscountApplied(data.discountApplied || false);
         setStep("pay");
       })
       .catch(() => setError("Something went wrong"));
@@ -516,6 +520,23 @@ function Pricing() {
                   onChange={(e) => setForm({ ...form, twitter: e.target.value })}
                   className={inputClass}
                 />
+                {!showPromo ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowPromo(true)}
+                    className={`text-[11px] text-[#4a5e78] underline underline-offset-2 hover:text-[#6b8299] ${sans}`}
+                  >
+                    Have a promo code?
+                  </button>
+                ) : (
+                  <input
+                    type="text"
+                    placeholder="Promo code"
+                    value={discountCode}
+                    onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
+                    className={inputClass}
+                  />
+                )}
                 {error && (
                   <p className={`text-[12px] text-red-400 ${sans}`}>{error}</p>
                 )}
@@ -538,6 +559,7 @@ function Pricing() {
                   recipientWallet={wallet}
                   amount={amount}
                   contact={form}
+                  discountCode={discountCode}
                   onSuccess={(sig, ref) => {
                     setTxRef(ref);
                     setStep("done");
@@ -546,20 +568,31 @@ function Pricing() {
                 <p className={`mt-3 text-center text-[11px] text-[#4a5e78] ${sans}`}>
                   Connect your Solana wallet and pay {amount} USDC in one click
                 </p>
+                {discountApplied && (
+                  <p className={`mt-1 text-center text-[11px] text-emerald-400 ${sans}`}>
+                    Promo code applied!
+                  </p>
+                )}
               </div>
             )}
 
             {/* ── Done ── */}
             {step === "done" && (
               <div className="mt-8 text-center">
-                <div className="text-[28px]">&#10003;</div>
+                <div className="text-[32px] text-emerald-400">&#10003;</div>
                 <p className="mt-2 text-[15px] font-semibold text-white">
-                  Payment received.
+                  You&apos;re in.
                 </p>
                 <p className={`mt-2 text-[13px] text-[#6b8299] ${sans}`}>
-                  We&apos;ll reach out within 24 hours via your preferred contact
-                  method to grant access.
+                  Your access has been granted. Sign in with the same wallet
+                  you just used to pay.
                 </p>
+                <a
+                  href="https://algo.2137.dev/terminal"
+                  className="mt-4 inline-block rounded bg-emerald-600 px-6 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-white transition hover:bg-emerald-700"
+                >
+                  Open your terminal →
+                </a>
                 {txRef && (
                   <p className={`mt-4 text-[11px] text-[#4a5e78] ${sans}`}>
                     Ref: <span className="font-mono text-[#5a7490]">{txRef}</span>

@@ -22,6 +22,7 @@ interface PayButtonProps {
   recipientWallet: string;
   amount: string;
   contact: { email: string; telegram: string; twitter: string };
+  discountCode?: string;
   onSuccess: (sig: string, ref: string) => void;
 }
 
@@ -29,6 +30,7 @@ export default function PayButton({
   recipientWallet,
   amount,
   contact,
+  discountCode,
   onSuccess,
 }: PayButtonProps) {
   const { connection } = useConnection();
@@ -103,17 +105,23 @@ export default function PayButton({
 
       await connection.confirmTransaction(signature, "confirmed");
 
-      // Notify backend
-      fetch("/api/pay/confirm", {
+      // Verify on-chain + grant access + send email
+      const confirmRes = await fetch("/api/pay/confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ref,
           signature,
           payer: publicKey.toBase58(),
+          discountCode: discountCode || "",
           ...contact,
         }),
-      }).catch(() => {});
+      });
+
+      if (!confirmRes.ok) {
+        const err = await confirmRes.json().catch(() => ({}));
+        throw new Error((err as any).error || "Confirmation failed");
+      }
 
       setStatus("done");
       onSuccess(signature, ref);
@@ -136,6 +144,7 @@ export default function PayButton({
     recipientWallet,
     amount,
     contact,
+    discountCode,
     onSuccess,
   ]);
 
