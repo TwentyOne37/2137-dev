@@ -257,12 +257,14 @@ function Hero() {
               Learn more
             </a>
           </div>
-          <a
-            href="https://algo.2137.dev/terminal"
-            className="mt-10 text-[11px] text-[#4a5e78] underline underline-offset-2 transition hover:text-white sm:mt-12 sm:text-[12px]"
-          >
-            Already a member? Open terminal →
-          </a>
+          <div className="mt-5 text-center sm:mt-6">
+            <a
+              href="https://algo.2137.dev/terminal"
+              className="text-[11px] text-[#4a5e78] underline underline-offset-2 transition hover:text-white sm:text-[12px]"
+            >
+              Already a member? Open terminal →
+            </a>
+          </div>
         </FadeIn>
 
         {/* stats strip */}
