@@ -187,18 +187,20 @@ function Nav() {
           ))}
         </div>
 
-        <a
-          href="#pricing"
-          className="rounded bg-[#ffb800] px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-black transition hover:bg-[#e0a200]"
-        >
-          Get Access
-        </a>
-        <a
-          href="https://algo.2137.dev/terminal"
-          className="rounded border border-[#1e2d3d] px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[#5a7490] transition hover:border-[#ffb800]/50 hover:text-white"
-        >
-          Open Terminal
-        </a>
+        <div className="flex items-center gap-2">
+          <a
+            href="#pricing"
+            className="rounded bg-[#ffb800] px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-black transition hover:bg-[#e0a200]"
+          >
+            Get Access
+          </a>
+          <a
+            href="https://algo.2137.dev/terminal"
+            className="rounded border border-[#1e2d3d] px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[#5a7490] transition hover:border-[#ffb800]/50 hover:text-white"
+          >
+            Open Terminal
+          </a>
+        </div>
       </div>
     </nav>
   );
