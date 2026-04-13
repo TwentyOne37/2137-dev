@@ -123,8 +123,8 @@ const FEATURES = [
     border: "border-l-emerald-400",
   },
   {
-    title: "Signal API for Agents",
-    desc: "Pay-per-request trading signals via x402 (Coinbase). Any wallet or AI agent pays USDC per call. MCP compatible.",
+    title: "x402 API for Agents",
+    desc: "Full trading infrastructure via x402 — candles, indicators, signals, and execution. Any wallet or AI agent pays USDC per call.",
     border: "border-l-emerald-400",
   },
 ];
@@ -160,7 +160,7 @@ const PRICING_FEATURES = [
 const BADGES = [
   "Competing in Colosseum Frontier 2026",
   "Built on Helius gRPC",
-  "Bags Hackathon — In Review",
+  "Powered by x402",
 ];
 
 /* ── NAV ──────────────────────────────────────────────────── */
@@ -176,7 +176,7 @@ function Nav() {
         </span>
 
         <div className="hidden items-center gap-8 sm:flex">
-          {["features", "how-it-works", "api", "pricing"].map((s) => (
+          {["features", "how-it-works", "pricing"].map((s) => (
             <a
               key={s}
               href={`#${s}`}
@@ -226,7 +226,7 @@ function Hero() {
         {/* headline */}
         <FadeIn delay={200}>
           <h1 className="mx-auto mt-6 max-w-3xl text-[clamp(1.75rem,5vw,4.5rem)] font-bold leading-[1.1] tracking-tight text-white sm:mt-8">
-            Trading intelligence
+            Real-time trading terminal
             <br />
             for <DexCycler />.
           </h1>
@@ -235,9 +235,9 @@ function Hero() {
         {/* subtitle */}
         <FadeIn delay={300}>
           <p className={`mx-auto mt-4 max-w-2xl text-[13px] leading-relaxed text-[#8b9eb5] sm:mt-5 sm:text-sm ${sans}`}>
-            Trading intelligence for Solana — for humans and AI agents.
-            Live charts, 10 indicators computed in Rust, strategy builder, paper
-            trading, live execution, and a pay-per-signal API via x402.
+            The first TradingView-like experience for Solana DEX trading.
+            10 indicators computed in Rust, strategy builder, paper trading, live
+            execution — for humans and AI agents.
           </p>
         </FadeIn>
 
@@ -333,8 +333,8 @@ function Features() {
               Everything you need to trade.
             </h2>
             <p className={`mx-auto mt-3 max-w-lg text-[14px] text-[#6b8299] ${sans}`}>
-              Rust-powered signal engine for PumpSwap on Solana. Dashboard for
-              traders, pay-per-signal API for bots and AI agents via x402.
+              Built from the ground up for Solana DEX trading. Real-time data,
+              powerful indicators, automated execution — for humans and AI agents.
             </p>
           </div>
         </FadeIn>
@@ -418,70 +418,27 @@ function SocialProof() {
   );
 }
 
-/* ── x402 API ────────────────────────────────────────────── */
-const API_ENDPOINTS = [
-  { endpoint: "GET /api/x402/candles", params: "?mint=X&tf=30s", price: "$0.001", returns: "OHLCV candle data" },
-  { endpoint: "GET /api/x402/indicators", params: "?mint=X&type=rsi", price: "$0.005", returns: "Indicator values" },
-  { endpoint: "GET /api/x402/signals", params: "?mint=X&preset=jeffs1", price: "$0.01", returns: "BUY/SELL signal + confidence" },
-  { endpoint: "GET /api/x402/analysis", params: "?mint=X", price: "$0.05", returns: "Full analysis (all indicators + signal)" },
-];
-
+/* ── x402 API TEASER ──────────────────────────────────────── */
 function ApiSection() {
   return (
-    <section id="api" className="border-t border-[#1e2d3d] py-12 sm:py-20">
+    <section className="border-t border-[#1e2d3d] py-12 sm:py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
-          <div className="text-center">
+          <div className="mx-auto max-w-2xl text-center">
             <div className="text-[10px] uppercase tracking-[0.25em] text-[#4a5e78]">
-              Signal API
+              Coming soon
             </div>
             <h2 className="mt-2 text-[clamp(1.5rem,3vw,2.25rem)] font-bold text-white">
-              Pay-per-request via x402.
+              Trading infra for AI agents.
             </h2>
             <p className={`mx-auto mt-3 max-w-lg text-[14px] text-[#6b8299] ${sans}`}>
-              Built on Coinbase&apos;s x402 standard. Any wallet or AI agent pays USDC
-              per API call — no API keys, no subscriptions. MCP compatible.
+              The same engine that powers the terminal — candles, indicators,
+              strategies, and execution — available as a pay-per-request API via
+              Coinbase&apos;s x402 standard. Any wallet or AI agent pays USDC per call.
+              No API keys. No subscriptions. MCP compatible.
             </p>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={100}>
-          <div className="mx-auto mt-8 max-w-3xl overflow-hidden rounded-lg border border-[#1e2d3d] bg-[#141c2b] sm:mt-10">
-            {/* header */}
-            <div className="grid grid-cols-[1fr_auto_1fr] gap-2 border-b border-[#1e2d3d] bg-[#0d1117] px-3 py-2 text-[9px] uppercase tracking-[0.2em] text-[#4a5e78] sm:px-5 sm:py-3 sm:text-[10px]">
-              <span>Endpoint</span>
-              <span className="text-center">Price</span>
-              <span className="text-right">Returns</span>
-            </div>
-            {/* rows */}
-            {API_ENDPOINTS.map((api, i) => (
-              <div
-                key={api.endpoint}
-                className={`grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 py-2.5 sm:px-5 sm:py-3 ${i !== API_ENDPOINTS.length - 1 ? "border-b border-[#1e2d3d]/50" : ""}`}
-              >
-                <div className="min-w-0">
-                  <span className="block truncate font-mono text-[11px] text-emerald-400 sm:text-[12px]">
-                    {api.endpoint}
-                  </span>
-                  <span className="block truncate font-mono text-[10px] text-[#4a5e78] sm:text-[11px]">
-                    {api.params}
-                  </span>
-                </div>
-                <span className="whitespace-nowrap text-center font-mono text-[12px] font-semibold text-[#ffb800] sm:text-[13px]">
-                  {api.price}
-                </span>
-                <span className={`text-right text-[11px] text-[#6b8299] sm:text-[12px] ${sans}`}>
-                  {api.returns}
-                </span>
-              </div>
-            ))}
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={200}>
-          <div className="mt-6 flex flex-col items-center gap-3 text-center sm:mt-8">
-            <div className="flex flex-wrap justify-center gap-2">
-              {["HTTP 402 native", "USDC on Solana", "Gasless for callers", "MCP compatible"].map((tag) => (
+            <div className="mt-6 flex flex-wrap justify-center gap-2">
+              {["HTTP 402 native", "USDC on Solana", "Gasless", "MCP compatible"].map((tag) => (
                 <span
                   key={tag}
                   className="rounded-full border border-[#1e2d3d] bg-[#0d1117] px-3 py-1 text-[9px] uppercase tracking-[0.15em] text-[#5a7490] sm:text-[10px]"
@@ -490,10 +447,6 @@ function ApiSection() {
                 </span>
               ))}
             </div>
-            <p className={`max-w-md text-[12px] text-[#4a5e78] ${sans}`}>
-              Your AI agent sends a request, gets a 402 with payment instructions,
-              pays USDC, retries — and gets the signal. Fully autonomous.
-            </p>
           </div>
         </FadeIn>
       </div>
