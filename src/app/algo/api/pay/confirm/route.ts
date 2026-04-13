@@ -54,6 +54,7 @@ export async function POST(request: Request) {
 
   // ── Step 1: Verify on-chain ──
   const rpcUrl =
+    process.env.SOLANA_RPC_URL ||
     process.env.NEXT_PUBLIC_SOLANA_RPC ||
     "https://api.mainnet-beta.solana.com";
   const connection = new Connection(rpcUrl);
