@@ -193,6 +193,12 @@ function Nav() {
         >
           Get Access
         </a>
+        <a
+          href="https://algo.2137.dev/terminal"
+          className="rounded border border-[#1e2d3d] px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[#5a7490] transition hover:border-[#ffb800]/50 hover:text-white"
+        >
+          Open Terminal
+        </a>
       </div>
     </nav>
   );
@@ -247,6 +253,12 @@ function Hero() {
               className="rounded border border-[#1e2d3d] px-5 py-2.5 text-[11px] uppercase tracking-[0.15em] text-[#5a7490] transition hover:border-[#3a5068] hover:text-white sm:px-7 sm:py-3 sm:text-[12px]"
             >
               Learn more
+            </a>
+            <a
+              href="https://algo.2137.dev/terminal"
+              className="text-[11px] text-[#4a5e78] underline underline-offset-2 transition hover:text-white sm:text-[12px]"
+            >
+              Already a member? Open terminal →
             </a>
           </div>
         </FadeIn>
