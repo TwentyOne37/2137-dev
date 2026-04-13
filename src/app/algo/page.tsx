@@ -196,7 +196,7 @@ function Nav() {
           </a>
           <a
             href="https://algo.2137.dev/terminal"
-            className="rounded border border-[#1e2d3d] px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[#5a7490] transition hover:border-[#ffb800]/50 hover:text-white"
+            className="inline-block rounded border border-[#1e2d3d] bg-transparent px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[#5a7490] transition hover:border-[#ffb800]/50 hover:bg-white/[0.03] hover:text-white"
           >
             Open Terminal
           </a>
@@ -259,7 +259,7 @@ function Hero() {
           </div>
           <a
             href="https://algo.2137.dev/terminal"
-            className="mt-4 text-[11px] text-[#4a5e78] underline underline-offset-2 transition hover:text-white sm:text-[12px]"
+            className="mt-6 text-[11px] text-[#4a5e78] underline underline-offset-2 transition hover:text-white sm:mt-8 sm:text-[12px]"
           >
             Already a member? Open terminal →
           </a>
