@@ -99,12 +99,12 @@ function DexCycler() {
 const FEATURES = [
   {
     title: "Real-Time Charts",
-    desc: "Live OHLCV candles streamed via Helius gRPC. Multiple timeframes — 1s, 15s, 30s, 1m. TradingView Lightweight Charts.",
+    desc: "Live OHLCV candles streamed via gRPC. 6 timeframes — 1s, 5s, 15s, 30s, 1m, 5m. TradingView Lightweight Charts.",
     border: "border-l-[#ffb800]",
   },
   {
     title: "10 Technical Indicators",
-    desc: "RSI, EMA Cross, MACD, Bollinger Bands, Supertrend, DMI/ADX, CCI, TRIX, VWAP, Ichimoku Cloud. All computed in Rust for speed.",
+    desc: "RSI, EMA Cross, MACD, Bollinger Bands, Supertrend, DMI/ADX, CCI, TRIX, VWAP, Ichimoku Cloud. All computed in Rust.",
     border: "border-l-[#ffb800]",
   },
   {
@@ -113,18 +113,18 @@ const FEATURES = [
     border: "border-l-[#ffb800]",
   },
   {
-    title: "Paper Trading",
-    desc: "Risk-free simulated execution with P&L tracking. Configurable slippage. Test before you trade.",
+    title: "AI Analytics",
+    desc: "Token regime classification, auto-promotion/demotion, portfolio risk management, and parameter grid search optimization.",
+    border: "border-l-[#ffb800]",
+  },
+  {
+    title: "Paper & Live Execution",
+    desc: "Risk-free paper trading with P&L tracking. Go live on PumpSwap with sub-second execution, safety limits, and dry-run mode.",
     border: "border-l-emerald-400",
   },
   {
-    title: "Live Execution (sub-second)",
-    desc: "Real PumpSwap trades via Helius Sender. Safety limits, dry-run mode, and position management.",
-    border: "border-l-emerald-400",
-  },
-  {
-    title: "Auto Recovery",
-    desc: "Historical backfill and gap-fill via Helius RPC. Graceful reconnects. Never miss a candle.",
+    title: "Signal API for Agents",
+    desc: "Pay-per-request trading signals via x402 (Coinbase). Any wallet or AI agent pays USDC per call. MCP compatible.",
     border: "border-l-emerald-400",
   },
 ];
@@ -151,8 +151,8 @@ const PRICING_FEATURES = [
   "Unlimited positions",
   "All 10 technical indicators",
   "Strategy builder with presets",
-  "Paper trading simulator",
-  "Live execution on PumpSwap",
+  "AI analytics & regime detection",
+  "Paper trading + live execution",
   "Private Telegram group with the founder",
 ];
 
@@ -176,7 +176,7 @@ function Nav() {
         </span>
 
         <div className="hidden items-center gap-8 sm:flex">
-          {["features", "how-it-works", "pricing"].map((s) => (
+          {["features", "how-it-works", "api", "pricing"].map((s) => (
             <a
               key={s}
               href={`#${s}`}
@@ -226,7 +226,7 @@ function Hero() {
         {/* headline */}
         <FadeIn delay={200}>
           <h1 className="mx-auto mt-6 max-w-3xl text-[clamp(1.75rem,5vw,4.5rem)] font-bold leading-[1.1] tracking-tight text-white sm:mt-8">
-            Real-time trading terminal
+            Trading intelligence
             <br />
             for <DexCycler />.
           </h1>
@@ -235,9 +235,9 @@ function Hero() {
         {/* subtitle */}
         <FadeIn delay={300}>
           <p className={`mx-auto mt-4 max-w-2xl text-[13px] leading-relaxed text-[#8b9eb5] sm:mt-5 sm:text-sm ${sans}`}>
-            The first TradingView-like experience for Solana memecoins.
-            Fastest live charts, 10 indicators computed in Rust, strategy builder, paper
-            trading, and live execution.
+            Trading intelligence for Solana — for humans and AI agents.
+            Live charts, 10 indicators computed in Rust, strategy builder, paper
+            trading, live execution, and a pay-per-signal API via x402.
           </p>
         </FadeIn>
 
@@ -333,8 +333,8 @@ function Features() {
               Everything you need to trade.
             </h2>
             <p className={`mx-auto mt-3 max-w-lg text-[14px] text-[#6b8299] ${sans}`}>
-              Built from the ground up for PumpSwap tokens on Solana. Real-time
-              data, powerful indicators, and automated execution.
+              Rust-powered signal engine for PumpSwap on Solana. Dashboard for
+              traders, pay-per-signal API for bots and AI agents via x402.
             </p>
           </div>
         </FadeIn>
@@ -411,6 +411,89 @@ function SocialProof() {
                 {badge}
               </span>
             ))}
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
+/* ── x402 API ────────────────────────────────────────────── */
+const API_ENDPOINTS = [
+  { endpoint: "GET /api/x402/candles", params: "?mint=X&tf=30s", price: "$0.001", returns: "OHLCV candle data" },
+  { endpoint: "GET /api/x402/indicators", params: "?mint=X&type=rsi", price: "$0.005", returns: "Indicator values" },
+  { endpoint: "GET /api/x402/signals", params: "?mint=X&preset=jeffs1", price: "$0.01", returns: "BUY/SELL signal + confidence" },
+  { endpoint: "GET /api/x402/analysis", params: "?mint=X", price: "$0.05", returns: "Full analysis (all indicators + signal)" },
+];
+
+function ApiSection() {
+  return (
+    <section id="api" className="border-t border-[#1e2d3d] py-12 sm:py-20">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
+        <FadeIn>
+          <div className="text-center">
+            <div className="text-[10px] uppercase tracking-[0.25em] text-[#4a5e78]">
+              Signal API
+            </div>
+            <h2 className="mt-2 text-[clamp(1.5rem,3vw,2.25rem)] font-bold text-white">
+              Pay-per-request via x402.
+            </h2>
+            <p className={`mx-auto mt-3 max-w-lg text-[14px] text-[#6b8299] ${sans}`}>
+              Built on Coinbase&apos;s x402 standard. Any wallet or AI agent pays USDC
+              per API call — no API keys, no subscriptions. MCP compatible.
+            </p>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={100}>
+          <div className="mx-auto mt-8 max-w-3xl overflow-hidden rounded-lg border border-[#1e2d3d] bg-[#141c2b] sm:mt-10">
+            {/* header */}
+            <div className="grid grid-cols-[1fr_auto_1fr] gap-2 border-b border-[#1e2d3d] bg-[#0d1117] px-3 py-2 text-[9px] uppercase tracking-[0.2em] text-[#4a5e78] sm:px-5 sm:py-3 sm:text-[10px]">
+              <span>Endpoint</span>
+              <span className="text-center">Price</span>
+              <span className="text-right">Returns</span>
+            </div>
+            {/* rows */}
+            {API_ENDPOINTS.map((api, i) => (
+              <div
+                key={api.endpoint}
+                className={`grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 py-2.5 sm:px-5 sm:py-3 ${i !== API_ENDPOINTS.length - 1 ? "border-b border-[#1e2d3d]/50" : ""}`}
+              >
+                <div className="min-w-0">
+                  <span className="block truncate font-mono text-[11px] text-emerald-400 sm:text-[12px]">
+                    {api.endpoint}
+                  </span>
+                  <span className="block truncate font-mono text-[10px] text-[#4a5e78] sm:text-[11px]">
+                    {api.params}
+                  </span>
+                </div>
+                <span className="whitespace-nowrap text-center font-mono text-[12px] font-semibold text-[#ffb800] sm:text-[13px]">
+                  {api.price}
+                </span>
+                <span className={`text-right text-[11px] text-[#6b8299] sm:text-[12px] ${sans}`}>
+                  {api.returns}
+                </span>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={200}>
+          <div className="mt-6 flex flex-col items-center gap-3 text-center sm:mt-8">
+            <div className="flex flex-wrap justify-center gap-2">
+              {["HTTP 402 native", "USDC on Solana", "Gasless for callers", "MCP compatible"].map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-[#1e2d3d] bg-[#0d1117] px-3 py-1 text-[9px] uppercase tracking-[0.15em] text-[#5a7490] sm:text-[10px]"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <p className={`max-w-md text-[12px] text-[#4a5e78] ${sans}`}>
+              Your AI agent sends a request, gets a 402 with payment instructions,
+              pays USDC, retries — and gets the signal. Fully autonomous.
+            </p>
           </div>
         </FadeIn>
       </div>
@@ -497,7 +580,7 @@ function Pricing() {
 
             <div className="mt-3 flex items-center gap-2">
               <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-[#ffb800]" />
-              <span className="text-sm text-[#ffb800]">17/20 spots remaining</span>
+              <span className="text-sm text-[#ffb800]">Limited founding member spots</span>
             </div>
 
             <ul className={`mt-6 space-y-2.5 ${sans}`}>
@@ -665,7 +748,7 @@ function Footer() {
     <footer className="border-t border-[#1e2d3d] py-6 sm:py-8">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <p className={`mb-6 text-center text-sm text-[#5a7490] ${sans}`}>
-          Stop trading PumpSwap blind. Get institutional-grade tools.
+          Trading intelligence for humans. Signal infrastructure for AI agents.
         </p>
 
         <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
@@ -764,6 +847,7 @@ export default function AlgoLandingPage() {
           <DemoVideo />
           <Features />
           <HowItWorks />
+          <ApiSection />
           <SocialProof />
           <Pricing />
           <Footer />

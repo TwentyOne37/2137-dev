@@ -225,7 +225,7 @@ function Hero() {
         {/* status line */}
         <div className="mb-8 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-[#444]">
           <Dot color="green" pulse />
-          <span>Available for new projects starting March 2026</span>
+          <span>Available for new projects</span>
           <span className="ml-auto">
             {new Date()
               .toLocaleDateString("en-US", {
@@ -492,8 +492,8 @@ function CaseStudy() {
           </span>
         </div>
         <p className="mt-2 text-[11px] leading-relaxed text-[#666]">
-          Sub-second data streaming pipelines. On-chain/off-chain coordination
-          for latency-sensitive sniper bots. MEV-aware systems with Jito bundler.
+          Algorithmic trading platform for PumpSwap. Rust signal engine, 7
+          indicators, AI analytics, live execution with Jito. Signal API via x402.
         </p>
         <div className="mt-3 flex flex-wrap gap-1.5">
           {["Rust", "Anchor", "gRPC Yellowstone", "Redis", "ClickHouse"].map(
