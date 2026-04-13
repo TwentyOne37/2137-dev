@@ -103,7 +103,17 @@ export default function PayButton({
       const signature = await sendTransaction(tx, connection);
       setStatus("confirming");
 
-      await connection.confirmTransaction(signature, "confirmed");
+      // Poll for confirmation via HTTP (WebSocket not available through proxy)
+      const start = Date.now();
+      while (Date.now() - start < 60_000) {
+        const { value } = await connection.getSignatureStatuses([signature]);
+        const s = value?.[0];
+        if (s?.confirmationStatus === "confirmed" || s?.confirmationStatus === "finalized") {
+          if (s.err) throw new Error("Transaction failed on-chain");
+          break;
+        }
+        await new Promise((r) => setTimeout(r, 2000));
+      }
 
       // Verify on-chain + grant access + send email
       const confirmRes = await fetch("/api/pay/confirm", {
