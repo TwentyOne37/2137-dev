@@ -256,13 +256,13 @@ function Hero() {
             >
               Learn more
             </a>
-            <a
-              href="https://algo.2137.dev/terminal"
-              className="text-[11px] text-[#4a5e78] underline underline-offset-2 transition hover:text-white sm:text-[12px]"
-            >
-              Already a member? Open terminal →
-            </a>
           </div>
+          <a
+            href="https://algo.2137.dev/terminal"
+            className="mt-4 text-[11px] text-[#4a5e78] underline underline-offset-2 transition hover:text-white sm:text-[12px]"
+          >
+            Already a member? Open terminal →
+          </a>
         </FadeIn>
 
         {/* stats strip */}
