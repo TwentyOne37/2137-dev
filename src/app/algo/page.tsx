@@ -267,7 +267,7 @@ function Hero() {
 
         {/* stats strip */}
         <FadeIn delay={500}>
-          <div className="mx-auto mt-10 grid max-w-2xl grid-cols-4 border border-[#1e2d3d] bg-[#141c2b] sm:mt-14">
+          <div className="mx-auto mt-6 grid max-w-2xl grid-cols-4 border border-[#1e2d3d] bg-[#141c2b] sm:mt-8">
             {[
               { label: "Indicators", value: "10" },
               { label: "Timeframes", value: "6" },
@@ -296,7 +296,7 @@ function Hero() {
 /* ── DEMO VIDEO PLACEHOLDER ──────────────────────────────── */
 function DemoVideo() {
   return (
-    <section className="py-8 sm:py-12">
+    <section className="py-4 sm:py-6">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <FadeIn>
           <div className="overflow-hidden rounded-lg border border-[#1e2d3d]">
