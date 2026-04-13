@@ -23,7 +23,7 @@ interface PayButtonProps {
   amount: string;
   contact: { email: string; telegram: string; twitter: string };
   discountCode?: string;
-  onSuccess: (sig: string, ref: string) => void;
+  onSuccess: (sig: string, ref: string, payer: string) => void;
 }
 
 export default function PayButton({
@@ -134,7 +134,7 @@ export default function PayButton({
       }
 
       setStatus("done");
-      onSuccess(signature, ref);
+      onSuccess(signature, ref, publicKey.toBase58());
     } catch (err: any) {
       setStatus("error");
       if (err?.message?.includes("User rejected")) {

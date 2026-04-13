@@ -410,6 +410,9 @@ function Pricing() {
   const [wallet, setWallet] = useState("");
   const [amount, setAmount] = useState("50");
   const [txRef, setTxRef] = useState("");
+  const [payerWallet, setPayerWallet] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [nameSaved, setNameSaved] = useState(false);
   const [discountCode, setDiscountCode] = useState("");
   const [discountApplied, setDiscountApplied] = useState(false);
   const [showPromo, setShowPromo] = useState(false);
@@ -560,8 +563,9 @@ function Pricing() {
                   amount={amount}
                   contact={form}
                   discountCode={discountCode}
-                  onSuccess={(sig, ref) => {
+                  onSuccess={(sig, ref, payer) => {
                     setTxRef(ref);
+                    setPayerWallet(payer);
                     setStep("done");
                   }}
                 />
@@ -584,9 +588,41 @@ function Pricing() {
                   You&apos;re in.
                 </p>
                 <p className={`mt-2 text-[13px] text-[#6b8299] ${sans}`}>
-                  Your access has been granted. Sign in with the same wallet
-                  you just used to pay.
+                  Your access has been granted. Set your display name for
+                  the dashboard.
                 </p>
+
+                {!nameSaved ? (
+                  <div className="mx-auto mt-4 flex max-w-xs gap-2">
+                    <input
+                      type="text"
+                      placeholder="Your name"
+                      value={displayName}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      className={inputClass}
+                    />
+                    <button
+                      onClick={() => {
+                        if (!displayName.trim() || !payerWallet) return;
+                        fetch("/api/pay/update-name", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ wallet: payerWallet, name: displayName.trim() }),
+                        })
+                          .then(() => setNameSaved(true))
+                          .catch(() => setNameSaved(true));
+                      }}
+                      className="shrink-0 rounded bg-[#ffb800] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.1em] text-black transition hover:bg-[#e0a200]"
+                    >
+                      Save
+                    </button>
+                  </div>
+                ) : (
+                  <p className={`mt-2 text-[12px] text-emerald-400 ${sans}`}>
+                    Saved! Welcome, {displayName}.
+                  </p>
+                )}
+
                 <a
                   href="https://algo.2137.dev/terminal"
                   className="mt-4 inline-block rounded bg-emerald-600 px-6 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-white transition hover:bg-emerald-700"
