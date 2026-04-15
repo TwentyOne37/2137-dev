@@ -5,7 +5,7 @@ import Image from "next/image";
 
 /* ── helpers ───────────────────────────────────────────────── */
 const sans = "font-[system-ui,Inter,-apple-system,sans-serif]";
-const TOTAL_SLIDES = 13;
+const TOTAL_SLIDES = 12;
 
 /* ── ANIMATED DOT GRID BACKGROUND ─────────────────────────── */
 const globalStyles = `
@@ -133,7 +133,7 @@ function SlideHero() {
         <div className="mx-auto mt-10 grid max-w-3xl grid-cols-2 border border-[#1e2d3d] bg-[#141c2b] sm:grid-cols-4">
           {[
             { value: "$284B", label: "Solana Q1'26 DEX volume" },
-            { value: "$1B+", label: "Cumulative bot revenue" },
+            { value: "$10M MRR", label: "Axiom alone, 72% share" },
             { value: "9.24M", label: "Dexscreener monthly visits" },
             { value: "0", label: "Competitors with agent API" },
           ].map((s, i) => (
@@ -401,9 +401,9 @@ function SlideMarket() {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   SLIDE 8 — BUSINESS MODEL: HUMANS
+   SLIDE 8 — BUSINESS MODEL (COMBINED)
    ══════════════════════════════════════════════════════════════ */
-function SlideBusinessHumans() {
+function SlideBusiness() {
   const tiers = [
     { tier: "Watch", price: "Free", target: "1 position, charts only \u00B7 Funnel" },
     { tier: "Trader", price: "$99/mo", target: "5 positions, all indicators, paper \u00B7 Core" },
@@ -411,48 +411,6 @@ function SlideBusinessHumans() {
     { tier: "API", price: "$499/mo", target: "Signal engine API \u00B7 B2B bot builders" },
   ];
 
-  return (
-    <Slide>
-      <SectionLabel>Business model</SectionLabel>
-      <SectionHeading>Two rails, one engine.</SectionHeading>
-
-      <div className="mt-8 rounded-lg border border-[#1e2d3d] bg-[#141c2b] p-5 sm:p-6">
-        <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#ffb800]">
-          Humans (SaaS)
-        </div>
-        <div className="mt-4 overflow-x-auto">
-          <table className={`w-full text-[12px] sm:text-[13px] ${sans}`}>
-            <thead>
-              <tr className="border-b border-[#1e2d3d]">
-                <th className="py-2 pr-4 text-left font-normal text-[#4a5e78]">Tier</th>
-                <th className="py-2 pr-4 text-left font-normal text-[#4a5e78]">Price</th>
-                <th className="py-2 text-left font-normal text-[#4a5e78]">Target</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tiers.map((t) => (
-                <tr key={t.tier} className="border-b border-[#1e2d3d]/50">
-                  <td className="py-2.5 pr-4 font-semibold text-white">{t.tier}</td>
-                  <td className="py-2.5 pr-4 text-[#ffb800]">{t.price}</td>
-                  <td className="py-2.5 text-[#6b8299]">{t.target}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className={`mt-5 text-[12px] leading-relaxed text-[#5a7490] sm:text-[13px] ${sans}`}>
-          At $100K/mo volume, Pro is <span className="text-[#ffb800]">4x cheaper</span> than
-          the 1% incumbents. And infinitely more capable.
-        </p>
-      </div>
-    </Slide>
-  );
-}
-
-/* ══════════════════════════════════════════════════════════════
-   SLIDE 9 — BUSINESS MODEL: AGENTS
-   ══════════════════════════════════════════════════════════════ */
-function SlideBusinessAgents() {
   const endpoints = [
     { endpoint: "/candles", price: "$0.001", returns: "OHLCV" },
     { endpoint: "/indicators", price: "$0.005", returns: "Indicator values" },
@@ -463,36 +421,70 @@ function SlideBusinessAgents() {
   return (
     <Slide>
       <SectionLabel>Business model</SectionLabel>
-      <SectionHeading>The agent rail.</SectionHeading>
+      <SectionHeading>Two rails, one engine.</SectionHeading>
 
-      <div className="mt-8 rounded-lg border border-[#1e2d3d] bg-[#141c2b] p-5 sm:p-6">
-        <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#ffb800]">
-          Agents (x402 pay-per-call)
-        </div>
-        <div className="mt-4 overflow-x-auto">
-          <table className={`w-full text-[12px] sm:text-[13px] ${sans}`}>
-            <thead>
-              <tr className="border-b border-[#1e2d3d]">
-                <th className="py-2 pr-4 text-left font-normal text-[#4a5e78]">Endpoint</th>
-                <th className="py-2 pr-4 text-left font-normal text-[#4a5e78]">Price</th>
-                <th className="py-2 text-left font-normal text-[#4a5e78]">Returns</th>
-              </tr>
-            </thead>
-            <tbody>
-              {endpoints.map((e) => (
-                <tr key={e.endpoint} className="border-b border-[#1e2d3d]/50">
-                  <td className="py-2.5 pr-4 font-mono font-semibold text-white">{e.endpoint}</td>
-                  <td className="py-2.5 pr-4 text-[#ffb800]">{e.price}</td>
-                  <td className="py-2.5 text-[#6b8299]">{e.returns}</td>
+      <div className="mt-6 grid gap-3 sm:gap-4 lg:grid-cols-2">
+        {/* Humans */}
+        <div className="rounded-lg border border-[#1e2d3d] bg-[#141c2b] p-5 sm:p-6">
+          <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#ffb800]">
+            Humans (SaaS)
+          </div>
+          <div className="mt-3 overflow-x-auto">
+            <table className={`w-full text-[11px] sm:text-[12px] ${sans}`}>
+              <thead>
+                <tr className="border-b border-[#1e2d3d]">
+                  <th className="py-1.5 pr-3 text-left font-normal text-[#4a5e78]">Tier</th>
+                  <th className="py-1.5 pr-3 text-left font-normal text-[#4a5e78]">Price</th>
+                  <th className="py-1.5 text-left font-normal text-[#4a5e78]">Target</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {tiers.map((t) => (
+                  <tr key={t.tier} className="border-b border-[#1e2d3d]/50">
+                    <td className="py-2 pr-3 font-semibold text-white">{t.tier}</td>
+                    <td className="py-2 pr-3 text-[#ffb800]">{t.price}</td>
+                    <td className="py-2 text-[#6b8299]">{t.target}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className={`mt-3 text-[11px] leading-relaxed text-[#5a7490] sm:text-[12px] ${sans}`}>
+            At $100K/mo volume, Pro is <span className="text-[#ffb800]">4x cheaper</span> than
+            the 1% incumbents. And infinitely more capable.
+          </p>
         </div>
-        <p className={`mt-5 text-[12px] leading-relaxed text-[#5a7490] sm:text-[13px] ${sans}`}>
-          USDC on Solana. No API keys. No subscriptions. MCP-compatible. First
-          trading infra for the agent economy.
-        </p>
+
+        {/* Agents */}
+        <div className="rounded-lg border border-[#1e2d3d] bg-[#141c2b] p-5 sm:p-6">
+          <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#ffb800]">
+            Agents (x402 pay-per-call)
+          </div>
+          <div className="mt-3 overflow-x-auto">
+            <table className={`w-full text-[11px] sm:text-[12px] ${sans}`}>
+              <thead>
+                <tr className="border-b border-[#1e2d3d]">
+                  <th className="py-1.5 pr-3 text-left font-normal text-[#4a5e78]">Endpoint</th>
+                  <th className="py-1.5 pr-3 text-left font-normal text-[#4a5e78]">Price</th>
+                  <th className="py-1.5 text-left font-normal text-[#4a5e78]">Returns</th>
+                </tr>
+              </thead>
+              <tbody>
+                {endpoints.map((e) => (
+                  <tr key={e.endpoint} className="border-b border-[#1e2d3d]/50">
+                    <td className="py-2 pr-3 font-mono font-semibold text-white">{e.endpoint}</td>
+                    <td className="py-2 pr-3 text-[#ffb800]">{e.price}</td>
+                    <td className="py-2 text-[#6b8299]">{e.returns}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className={`mt-3 text-[11px] leading-relaxed text-[#5a7490] sm:text-[12px] ${sans}`}>
+            USDC on Solana. No API keys. No subscriptions. MCP-compatible. First
+            trading infra for the agent economy.
+          </p>
+        </div>
       </div>
     </Slide>
   );
@@ -584,7 +576,7 @@ function SlideFounder() {
         <div>
           <div className="text-[16px] font-bold text-white">Krzysztof Ziolkowski</div>
           <div className={`mt-0.5 text-[13px] text-[#5a7490] ${sans}`}>
-            &#127477;&#127473; &middot; Amsterdam
+            &#127477;&#127473;
           </div>
           <ul className={`mt-4 space-y-2 ${sans}`}>
             {bullets.map((b) => (
@@ -819,13 +811,12 @@ export default function PitchPage() {
       >
         <SlideHero />
         <SlideTweet />
+        <SlideMarket />
         <SlideProblem />
         <SlideDemo />
         <SlideTenX />
         <SlideCompetitors />
-        <SlideMarket />
-        <SlideBusinessHumans />
-        <SlideBusinessAgents />
+        <SlideBusiness />
         <SlideRoadmap />
         <SlideFounder />
         <SlideAsk />
