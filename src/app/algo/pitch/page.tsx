@@ -279,16 +279,16 @@ function SlideDemo() {
 function SlideTenX() {
   const cards = [
     {
-      title: "Sub-second.",
-      body: "Rust signal engine. Helius gRPC. 10 indicators (RSI, EMA Cross, MACD, Bollinger, Supertrend, DMI/ADX, CCI, TRIX, VWAP, Ichimoku), 6 timeframes (1s \u2192 5m). Dexscreener-class charts that actually move.",
-    },
-    {
-      title: "Strategy-native.",
-      body: "Build buy/sell conditions across indicators. 3 proven presets included. Paper trade on live candles. Flip a switch to go live on PumpSwap. No platform switch. No copy-paste.",
+      title: "One loop.",
+      body: "Sub-second charts, indicators, strategy, and execution \u2014 in a single loop. Bloomberg, not Dexscreener.",
     },
     {
       title: "AI-native.",
-      body: "First Solana terminal with an x402 pay-per-call API. MCP-compatible. x402 joined the Linux Foundation two weeks ago with Google, AWS, Stripe, Visa. Cloudflare ships 1B+ HTTP 402s/day. We\u2019re already on those rails.",
+      body: "First Solana terminal with an x402 pay-per-call API. MCP-compatible. x402 joined the Linux Foundation two weeks ago with Google, Stripe, and Visa as founding members. We\u2019re already on those rails.",
+    },
+    {
+      title: "$249/mo unlimited.",
+      body: "At $100K/month volume, that\u2019s 4x cheaper than the 1% incumbents. And infinitely more capable.",
     },
   ];
 
