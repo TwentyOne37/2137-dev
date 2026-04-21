@@ -7,12 +7,14 @@ export function Reveal({
   delay = 0,
   y = 12,
   className = "",
+  style,
   as: Tag = "div",
 }: {
   children: ReactNode;
   delay?: number;
   y?: number;
   className?: string;
+  style?: React.CSSProperties;
   as?: "div" | "section" | "p" | "h1" | "h2" | "span" | "li";
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -42,6 +44,7 @@ export function Reveal({
       ref={ref}
       className={className}
       style={{
+        ...style,
         opacity: shown ? 1 : 0,
         transform: shown ? "translateY(0)" : `translateY(${y}px)`,
         transition: `opacity 700ms cubic-bezier(0.2,0.8,0.2,1) ${delay}ms, transform 700ms cubic-bezier(0.2,0.8,0.2,1) ${delay}ms`,
