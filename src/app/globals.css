@@ -19,6 +19,68 @@
   animation: heartbeat 1.5s ease-in-out infinite;
 }
 
+/* ── SHARD REBRANDING PAGE ──────────────────────────────── */
+@keyframes shard-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-shard-ticker {
+  animation: shard-ticker 55s linear infinite;
+  will-change: transform;
+}
+
+@keyframes shard-shimmer {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  20%  { opacity: 0.85; }
+  60%  { opacity: 0.85; }
+  100% { transform: translateX(220%); opacity: 0; }
+}
+.animate-shard-shimmer {
+  animation: shard-shimmer 7s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+@keyframes shard-shimmer-2 {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  25%  { opacity: 0.6; }
+  55%  { opacity: 0.6; }
+  100% { transform: translateX(220%); opacity: 0; }
+}
+.animate-shard-shimmer-2 {
+  animation: shard-shimmer-2 7s ease-in-out infinite;
+  animation-delay: 3.2s;
+}
+
+@keyframes shard-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(-1.5px, 1px); }
+}
+.animate-shard-drift {
+  animation: shard-drift 9s ease-in-out infinite;
+}
+.animate-shard-drift-alt {
+  animation: shard-drift 11s ease-in-out infinite reverse;
+}
+
+@keyframes shard-shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+.animate-shard-shake {
+  animation: shard-shake 0.45s ease-in-out;
+}
+
+@keyframes shard-cursor-blink {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.animate-shard-caret {
+  animation: shard-cursor-blink 1s step-end infinite;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
